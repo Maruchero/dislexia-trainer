@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speech recognition</title>
+
+  <style>
+    .record-button {
+      display: block;
+      width: 100px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 3px solid orange;
+      background: orange;
+      color: white;
+    }
+
+    .record-button.active {
+      background: white;
+      color: orange;
+    }
+
+    .word {
+      font-family: sans-serif;
+      margin-right: 5px;
+    }
+
+    .word.pronunced {
+      color: gray;
+    }
+  </style>
+  <script src="js/speech.js" defer></script>
+</head>
+
+<body>
+
+  <button class="record-button" id="recordButton">Record</button>
+
+  <div id="text"></div>
+  <div id="chat"></div>
+
+</body>
+
+</html>
