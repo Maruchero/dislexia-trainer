@@ -1,0 +1,43 @@
+body {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: max-content auto;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--gray);
+}
+
+form input {
+    background: var(--gray);
+    border: 0;
+    border-radius: 10px;
+    width: 300px;
+    padding: 10px;
+
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--white);
+}
+
+label[for="password"] {
+    margin-top: 10px;
+}
+
+input[type='submit'] {
+    margin-top: 20px;
+    align-self: center;
+    width: max-content;
+    padding: 12px 25px;
+    cursor: pointer;
+}
