@@ -21,10 +21,10 @@ if ($conn->query($sql) === TRUE) {
 $conn->select_db($dbname);
 
 $sql = "CREATE TABLE `users` (
-      `username` varchar(255) PRIMARY KEY,
-      `password` varchar(255) NOT NULL,
-      `name` varchar(255) NOT NULL,
-      `surname` varchar(255) NOT NULL,
+      `username` VARCHAR(255) PRIMARY KEY,
+      `password` VARCHAR(255) NOT NULL,
+      `name` VARCHAR(255) NOT NULL,
+      `surname` VARCHAR(255) NOT NULL,
 );";
 
 if ($conn->query($sql) === TRUE) {
@@ -34,7 +34,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $sql = "CREATE TABLE `texts` (
-      `idText` char(5) PRIMARY KEY,
+      `idText` CHAR(5) PRIMARY KEY,
       `text` TEXT NOT NULL,
       `level` INT NOT NULL
 );";
@@ -46,14 +46,14 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $sql = "CREATE TABLE `attempts` (
-      `idAttempt` char(5) PRIMARY KEY,
-      `username` varchar(255),
-      `idText` char(5),
-      FOREIGN KEY(`username`) REFERENCES `users`(`username`),
-      FOREIGN KEY(`idText`) REFERENCES `texts`(`idText`),
+      `idAttempt` CHAR(5) PRIMARY KEY,
+      `username` VARCHAR(255),
+      `idText` CHAR(5),
       `dateAttempt` DATE NOT NULL,
       `time_elapsed` DOUBLE NOT NULL,
-      `passed` BOOLEAN NOT NULL
+      `passed` BOOLEAN NOT NULL,
+      FOREIGN KEY(`username`) REFERENCES `users`(`username`),
+      FOREIGN KEY(`idText`) REFERENCES `texts`(`idText`)
 );";
 
 if ($conn->query($sql) === TRUE) {
