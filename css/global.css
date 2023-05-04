@@ -12,9 +12,9 @@ body {
 nav {
     background: var(--orange);
     font-family: Roboto, sans-serif;
-    font-weight: bold;
+    font-size: 20px;
     color: var(--white);
-    height: 3rem;
+    height: 60px;
     width: 100%;
     box-sizing: border-box;
     padding: 0 15px;
@@ -24,9 +24,16 @@ nav {
     justify-content: space-between;
 }
 
-nav > a {
-    display: block;
-    padding: 10px;
+nav > .left,
+nav > .right {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: inherit;
     text-decoration: none;
 }

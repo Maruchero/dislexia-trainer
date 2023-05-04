@@ -34,20 +34,18 @@ let lastWord = "";
 let recording = false;
 recordButton.addEventListener("click", () => {
   if (recording) {
-    // recognition.onend = recognition.stop;
+    recognition.onend = recognition.stop;
     recognition.stop();
     console.log("Recognition stopped");
     recording = false;
     recordButton.classList.remove("active");
-    // recognition.onend = recognition.start;
   } else {
     lastParagraph = 0;
-    // recognition.onend = recognition.start;
+    recognition.onend = recognition.start;
     recognition.start();
     console.log("Recognition started");
     recording = true;
     recordButton.classList.add("active");
-    // recognition.onend = recognition.stop;
   }
 });
 recordButton.click();
@@ -116,42 +114,52 @@ function advanceWords() {
 }
 
 function checkWords(string) {
-  if (string == generatedWords[0].toLowerCase()) {
-    console.log(true);
+  console.log(string, "==", generatedWords[0].toLowerCase(), "?", string == generatedWords[0].toLowerCase());
+  if (string != generatedWords[0].toLowerCase()) return false;
 
-    // Shift
-    generatedWords.shift();
-    const span = text.querySelector(".word:not(.pronunced)");
-    span.classList.add("pronunced");
-    text.style.translate = parseFloat(text.style.translate) - span.offsetWidth - 5 + "px";
+  // Shift
+  generatedWords.shift();
+  const span = text.querySelector(".word:not(.pronunced)");
+  span.classList.add("pronunced");
+  text.style.translate = parseFloat(text.style.translate) - span.offsetWidth - 5 + "px";
 
-    // End of sentence
-    if (generatedWords.length == 0) {
-      now = new Date();
-      let timeElapsed = now - wordTimer;
-      register.push(timeElapsed);
-      console.log(timeElapsed);
-    }
-  } else {
-    console.log(false);
+  // End of sentence
+  if (generatedWords.length == 0) {
+    now = new Date();
+    let timeElapsed = now - wordTimer;
+    register.push(timeElapsed);
+    console.log(timeElapsed);
   }
+  
+  return true;
 }
 
+let validationIndex = 0;
 recognition.addEventListener("result", (event) => {
-  const isModifiedPrompt = event.results.length == lastParagraph;
+  // New prompt
   const isNewPrompt = event.results.length > lastParagraph;
+  if (isNewPrompt) {
+    console.log("New prompt");
+    lastParagraph++;
+    validationIndex = 0;
+  }
 
-  if (isNewPrompt) lastParagraph++;
+  // Extraction
   const result = event.results[lastParagraph - 1][0].transcript;
   const pronunced = result
     .toLowerCase()
     .replace(/[.,?!]/g, "")
     .split(" ");
   console.log(pronunced);
-  const word = pronunced[pronunced.length - 1];
 
-  const isGrammarPrompt = isModifiedPrompt && word == lastWord;
-  if (isGrammarPrompt) return;
-  checkWords(word);
-  lastWord = word;
+  if (pronunced[validationIndex] != lastWord) {
+    validationIndex--;
+  }
+
+  // Validation
+  for (;validationIndex < pronunced.length; validationIndex++) {
+    const word = pronunced[validationIndex];
+    checkWords(word);
+    lastWord = word;
+  }
 });
