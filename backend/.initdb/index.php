@@ -47,8 +47,8 @@ if ($conn->query($sql) === TRUE) {
 
 $sql = "CREATE TABLE IF NOT EXISTS `attempts` (
       `idAttempt` CHAR(5) PRIMARY KEY,
-      `username` VARCHAR(255),
-      `idText` CHAR(5),
+      `username` VARCHAR(255) NOT NULL,
+      `idText` CHAR(5) NOT NULL,
       `dateAttempt` DATE NOT NULL,
       `time_elapsed` DOUBLE NOT NULL,
       `passed` BOOLEAN NOT NULL,

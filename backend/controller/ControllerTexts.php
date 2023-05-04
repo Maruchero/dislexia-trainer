@@ -5,6 +5,10 @@ if (!isset($_POST["mode"])) die("Missing parameter 'mode'");
 
 switch ($_POST["mode"]) {
 
+  case 'get_all':
+    echo ViewTexts::get_all();
+    break;
+
   case 'get_by_level':
     if (!isset($_POST["level"])) die("Missing parameter 'level'");
     $level = $_POST["level"];
