@@ -1,21 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
-
 body {
     margin: 0;
-    --orange: #ec7d0e;
-    --white: #f5f0f6;
-    --gray: #737386;
+    --orange: #F0742E;
+    --white: #ffffff;
+    --gray: #8B8B8B;
+    --title: #B6B6B6;
     font-size: 18px;
-    font-family: Rubik, sans-serif;
+    font-family: Inter, sans-serif;
     background: var(--white);
 }
 
 nav {
     background: var(--orange);
+    font-family: Roboto, sans-serif;
     font-weight: bold;
     color: var(--white);
+    height: 3rem;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 15px;
 
     display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 nav > a {
