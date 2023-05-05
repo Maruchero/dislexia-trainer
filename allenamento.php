@@ -21,28 +21,41 @@
 </head>
 
 <body>
-  <nav>
-    <div class="left">
-      <a href="allenamento.html"><span>Allenamento</span></a>
-      <a href="progressi.html"><span>Progressi</span></a>
-    </div>
-    <a href="logut.php"><span>Esci</span></a>
-  </nav>
-
-  <div class="content">
-    <h1 class="title">Livello <span id="titleLevel">1</span></h1>
-
-    <div class="relative">
-      <div class="result" id="result">
-        <span id="time"></span>
-        <button onclick="nextSentence()">Prossimo</button>
+  <?php
+  function main(){
+    ?>
+    <nav>
+      <div class="left">
+        <a href="allenamento.html"><span>Allenamento</span></a>
+        <a href="progressi.html"><span>Progressi</span></a>
       </div>
-      <span class="text-indicator"></span>
-      <div id="text"></div>
-    </div>
+      <a href="logout.php"><span>Esci</span></a>
+    </nav>
 
-    <button class="record-button" id="recordButton"><i class="fa-solid fa-microphone"></i></button>
-  </div>
+    <div class="content">
+      <h1 class="title">Livello <span id="titleLevel">1</span></h1>
+
+      <div class="relative">
+        <div class="result" id="result">
+          <span id="time"></span>
+          <button onclick="nextSentence()">Prossimo</button>
+        </div>
+        <span class="text-indicator"></span>
+        <div id="text"></div>
+      </div>
+
+      <button class="record-button" id="recordButton"><i class="fa-solid fa-microphone"></i></button>
+    </div>
+  <?php
+  }
+  session_start();
+  if (isset($_SESSION["username"])){
+      main();
+      
+  } else {
+      header("Location: index.php");
+  }
+  ?>
 
 </body>
 

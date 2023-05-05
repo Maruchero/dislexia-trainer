@@ -15,18 +15,54 @@
             <a href="progressi.html"><span>Progressi</span></a>
     </div>
     </nav>
-    <div class="content">
-        <h2>Accedi per usare l'app</h3>
-        <form action="finance.php" method="POST">
-            <label for="username">Username</label>
-            <input type="text" name="username" required>
+    <?php
+    function login($cd = null, $pwd = null){
+        ?>
+        <div class="content">
+            <h2>Accedi per usare l'app</h3>
+            <form method="POST">
+                <label for="username">Username</label>
+                <input type="text" name="username" required>
 
-            <label for="password">Password</label>
-            <input type="password" name="password" required>
+                <label for="password">Password</label>
+                <input type="password" name="password" required>
 
-            <input type="submit" name="button" value="Accedi">
-        </form>
-    </div>
+                <input type="submit" name="button" value="Accedi">
+            </form>
+        </div>
+        <?php
+    }
+
+    session_start();
+    if (isset($_SESSION["username"])){
+        header("Location: allenamento.php");
+    }
+
+    if (isset($_POST["button"])){
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+
+        require("backend/connect.php");
+
+        $sql = "SELECT *
+                FROM users
+                WHERE username = '$username' AND password = '$password'";
+
+        $result = mysqli_query($conn, $sql);
+        $conn->close();
+
+        if (mysqli_num_rows($result) == 1) {
+            $_SESSION["username"] =  $username;
+            header("Location: allenamento.php");
+        } else {
+            login($username, $password);
+            echo "Username o password errate.";
+        }
+    } else {
+        login();
+    }
+    ?>
+    
 </body>
 
 </html>
