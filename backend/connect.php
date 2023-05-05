@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "dislexia-trainer";
+$dbname = "dislexia_trainer";
 
 // Connection to mysql server
 $conn = new mysqli($servername, $username, $password, $dbname);
