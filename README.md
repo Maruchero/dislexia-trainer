@@ -16,9 +16,9 @@ with the following structure:
 
 	dislexia-trainer-main
 	
-	    allenamento.html
-	    index.html
-	    progressi.html
+	    allenamento.php
+	    index.php
+	    progressi.php
 	
         backend
             .initdb
