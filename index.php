@@ -16,16 +16,16 @@
     </div>
     </nav>
     <?php
-    function login($cd = null, $pwd = null){
+    function login($username = null, $password = null){
         ?>
         <div class="content">
             <h2>Accedi per usare l'app</h3>
             <form method="POST">
                 <label for="username">Username</label>
-                <input type="text" name="username" required>
+                <input type="text" name="username" value="<?php echo $username ?>" required>
 
                 <label for="password">Password</label>
-                <input type="password" name="password" required>
+                <input type="password" name="password" value="<?php echo $password ?>" required>
 
                 <input type="submit" name="button" value="Accedi">
             </form>
