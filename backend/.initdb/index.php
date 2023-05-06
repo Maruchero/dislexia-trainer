@@ -47,10 +47,10 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $sql = "CREATE TABLE IF NOT EXISTS `attempts` (
-      `idAttempt` CHAR(5) PRIMARY KEY,
+      `idAttempt` INT AUTO_INCREMENT PRIMARY KEY,
       `username` VARCHAR(255) NOT NULL,
       `idText` CHAR(5) NOT NULL,
-      `dateAttempt` DATE NOT NULL,
+      `dateAttempt` DATETIME NOT NULL,
       `time_elapsed` DOUBLE NOT NULL,
       `passed` BOOLEAN NOT NULL,
       FOREIGN KEY(`username`) REFERENCES `users`(`username`),
@@ -188,9 +188,9 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $sql = "INSERT IGNORE INTO `attempts` (`idAttempt`, `username`, `idText`, `dateAttempt`, `time_elapsed`, `passed`) VALUES
-        ('00001', 'MR2376', '00034', '2023-05-04', 1.25, 1),
-        ('00002', 'CF1541', '00095', '2023-04-19', 2.56, 0),
-        ('00003', 'CF1541', '00078', '2023-02-21', 0.32, 1)
+        (0, 'MR2376', '00034', '2023-05-04', 1.25, 1),
+        (0, 'CF1541', '00095', '2023-04-19', 2.56, 0),
+        (0, 'CF1541', '00078', '2023-02-21', 0.32, 1)
 ;";
 
 if ($conn->query($sql) === TRUE) {

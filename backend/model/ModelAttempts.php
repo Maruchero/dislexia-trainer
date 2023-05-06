@@ -14,10 +14,10 @@ class ModelAttempts {
     return $data;
   }
 
-  static function create_attempt($idAttempt, $username, $idText, $dateAttempt, $time_elapsed, $passed) {
+  static function create_attempt($username, $idText, $dateAttempt, $time_elapsed, $passed) {
     global $conn;
-    $query = "INSERT INTO attempts (idAttempt, username, idText, dateAttempt, time_elapsed, passed) 
-              VALUES ('$idAttempt', '$username', '$idText', '$dateAttempt', '$time_elapsed', '$passed')";
+    $query = "INSERT INTO attempts (username, idText, dateAttempt, time_elapsed, passed) 
+              VALUES ('$username', '$idText', '$dateAttempt', '$time_elapsed', $passed)";
     $data = mysqli_query($conn, $query);
     return $data;
   }

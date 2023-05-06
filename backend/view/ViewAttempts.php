@@ -9,8 +9,8 @@ class ViewAttempts {
     return $json;
   }
 
-  static function create_attempt($idAttempt, $username, $idText, $dateAttempt, $time_elapsed, $passed) {
-    $data = ModelAttempts::create_attempt($idAttempt, $username, $idText, $dateAttempt, $time_elapsed, $passed);
+  static function create_attempt($username, $idText, $dateAttempt, $time_elapsed, $passed) {
+    $data = ModelAttempts::create_attempt($username, $idText, $dateAttempt, $time_elapsed, $passed);
     $json = json_encode($data);
     return $json;
   }
