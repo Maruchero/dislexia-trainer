@@ -99,7 +99,7 @@
             break;
         
           case 'update_user':
-            if (!isset($username_)){
+            if (isset($username_)){
               update_user($username_);
             } else if (isset($_SESSION["user"])){
               update_user($_SESSION["user"]);

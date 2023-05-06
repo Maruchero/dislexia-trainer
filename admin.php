@@ -33,7 +33,7 @@
             <th>Password</th>
             <th>Nome</th>
             <th>Cognome</th>
-            <!-- <th>Ruolo</th> -->
+            <th>Ruolo</th>
 
         </tr>
         <tbody>
@@ -43,7 +43,6 @@
             $query = "SELECT * FROM users";
             $result = mysqli_query($conn, $query);
             while ($row = mysqli_fetch_array($result)) {
-                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
                 $username = $row["username"];
                 $password = $row["password"];
                 $name = $row["name"];
@@ -57,7 +56,7 @@
                     <td><?php echo $surname; ?></td>
                     <td><?php echo $role; ?></td>
                     <td><button type="submit" type="button"><?php echo  "<a href='modifica_utente.php?mode=delete_user&username=" . $username . "' >Elimina</a>"; ?></button>
-                    <button name="update"  type="submit" onclick="" type="button"><?php echo  "<a href='modify_utente.php?mode=delete_user&username=" . $username . "'>Modifica</a>"; ?></button></td>
+                    <button name="update"  type="submit" onclick="" type="button"><?php echo  "<a href='modifica_utente.php?mode=update_user&username=" . $username . "'>Modifica</a>"; ?></button></td>
                     <td></td>
                 </tr>
 
@@ -65,64 +64,7 @@
             ?>
         </tbody>
 
-    </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <?php
-        require_once("backend/connect.php");
-        
-        $query = "SELECT *
-                  FROM users 
-                  WHERE username = '$username'";
-
-        $result = mysqli_query($conn, $query);
-
-        if (mysqli_num_rows($result) == 1) {
-            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            $username = $row["username"];
-            $password = $row["password"];
-            $name = $row["name"];
-            $surname = $row["surname"];
-            $role = $row["role"];
-        }
-        $conn->close();
-
-        echo ("<table>
-                <tr><td>Nome utente:</td><td>" . $username . "</td></tr>
-                <tr><td>Password:</td><td>" . str_repeat("•", strlen($password)) . "</td></tr>
-                <tr><td>Nome:</td><td>" . $name . "</td></tr>
-                <tr><td>Cognome:</td><td>" . $surname . "</td></tr>
-              </table>");
-      ?>
-      <td>
-        <button type="submit" name="update" type="button"> <a href='modifica_utente.php?mode=update_user'>Modifica</a></button>
-        <?php if (isset($_SESSION["admin"])){ echo "<button type='submit' name='button' type='button'><a href='modifica_utente.php?mode=delete_user'>Elimina</a></button>";}?>
-        
-      </td>
-
+      </table>
     </div>
   <?php
   }
