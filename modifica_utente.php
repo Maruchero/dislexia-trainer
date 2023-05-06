@@ -8,7 +8,7 @@
   <title>Allenamento</title>
 
   <link rel="stylesheet" href="css/global.css">
-  <!-- <link rel="stylesheet" href="css/modifica_utente.css"> -->
+  <link rel="stylesheet" href="css/modifica_utente.css">
   <script src="js/ajax.js"></script>
   <script src="js/allenamento.js" defer></script>
   
@@ -18,9 +18,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+      
 </head>
 
 <body>

@@ -65,7 +65,7 @@
                 <tr><td>Cognome:</td><td>" . $surname . "</td></tr>
               </table>");
       ?>
-      <td><button type="submit" type="button" class="btn btn-outline-warning"><?php echo  "<a href='modifica_utente.php?mode=delete_user'>Elimina</a>"; ?></button><button name="update"  type="submit" onclick="" type="button" class="btn btn-outline-warning"><?php echo  "<a href='modifica_utente.php?mode=modify_user'>Modifica</a>"; ?></button></td>
+      <td><button type="submit" type="button"><?php echo  "<a href='modifica_utente.php?mode=delete_user'>Elimina</a>"; ?></button><button name="update"  type="submit" onclick="" type="button"><?php echo  "<a href='modifica_utente.php?mode=modify_user'>Modifica</a>"; ?></button></td>
 
     </div>
   <?php
