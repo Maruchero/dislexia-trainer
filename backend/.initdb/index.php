@@ -24,7 +24,8 @@ $sql = "CREATE TABLE IF NOT EXISTS `users` (
       `username` VARCHAR(255) PRIMARY KEY,
       `password` VARCHAR(255) NOT NULL,
       `name` VARCHAR(255) NOT NULL,
-      `surname` VARCHAR(255) NOT NULL
+      `surname` VARCHAR(255) NOT NULL,
+      `role` VARCHAR(255) NOT NULL
 );";
 
 if ($conn->query($sql) === TRUE) {
@@ -62,9 +63,9 @@ if ($conn->query($sql) === TRUE) {
     echo "Errore nella creazione della tabella attempt: " . $conn->error;
 }
 
-$sql = "INSERT IGNORE INTO `users` (`username`, `password`, `name`, `surname`) VALUES
-        ('MR2376', 'password1234', 'Mario', 'Rossi'),
-        ('CF1541', '#pizza', 'Chiara', 'Ferragni')
+$sql = "INSERT IGNORE INTO `users` (`username`, `password`, `name`, `surname`, `role`) VALUES
+        ('MR2376', 'password1234', 'Mario', 'Rossi', 'Admin'),
+        ('CF1541', '#pizza', 'Chiara', 'Ferragni', 'User')
 ;";
 
 if ($conn->query($sql) === TRUE) {

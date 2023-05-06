@@ -3,10 +3,10 @@ require_once("../connect.php");
 
 class ModelUsers {
 
-  static function create_user($username, $password, $name, $surname) {
+  static function create_user($username, $password, $name, $surname, $role) {
     global $conn;
-    $query = "INSERT INTO users (username, password, name, surname) 
-              VALUES ('$username', '$password', '$name', '$surname');";
+    $query = "INSERT INTO users (username, password, name, surname, role) 
+              VALUES ('$username', '$password', '$name', '$surname', '$role');";
     $data = mysqli_query($conn, $query);
     return $data;
   }
@@ -22,7 +22,7 @@ class ModelUsers {
   static function update_user($username, $password, $name, $surname) {
     global $conn;
     $query = "UPDATE users 
-              SET password='$password', name='$name', surname='$surname' 
+              SET password='$password', name='$name', surname='$surname'
               WHERE username='$username'";
     $data = mysqli_query($conn, $query);
     return $data;

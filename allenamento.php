@@ -35,8 +35,9 @@ if (!isset($_SESSION["username"])) header("Location: index.php");
 <body>
     <nav>
       <div class="left">
-        <a href="allenamento.html"><span>Allenamento</span></a>
-        <a href="progressi.html"><span>Progressi</span></a>
+        <a href="allenamento.php"><span>Allenamento</span></a>
+        <a href="progressi.php"><span>Progressi</span></a>
+        <a href="profilo.php"><span>Profilo</span></a>
       </div>
       <a href="logout.php"><span>Esci</span></a>
     </nav>
