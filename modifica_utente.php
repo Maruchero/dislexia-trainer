@@ -22,6 +22,7 @@
 <body>
   <?php
   function main(){
+    if (isset($_SESSION["user"])){
     ?>
     <nav>
       <div class="left">
@@ -31,6 +32,9 @@
       </div>
       <a href="logout.php"><span>Esci</span></a>
     </nav>
+    <?php
+    }
+    ?>
 
     <div class="content">
       <?php
