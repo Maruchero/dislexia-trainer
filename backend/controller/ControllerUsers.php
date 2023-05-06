@@ -10,12 +10,15 @@ switch ($_POST["mode"]) {
     if (!isset($_POST["password"])) die("Missing parameter 'password'");
     if (!isset($_POST["name"])) die("Missing parameter 'name'");
     if (!isset($_POST["surname"])) die("Missing parameter 'surname'");
+    if (!isset($_POST["role"])) die("Missing parameter 'role'");
+
     $username = $_POST["username"];
     $password = $_POST["password"];
     $name = $_POST["name"];
     $surname = $_POST["surname"];
+    $role = $_POST["role"];
 
-    echo ViewUsers::create_user($username, $password, $name, $surname);
+    echo ViewUsers::create_user($username, $password, $name, $surname, $role);
     break;
 
   case 'get_user':
@@ -29,6 +32,7 @@ switch ($_POST["mode"]) {
     if (!isset($_POST["password"])) die("Missing parameter 'password'");
     if (!isset($_POST["name"])) die("Missing parameter 'name'");
     if (!isset($_POST["surname"])) die("Missing parameter 'surname'");
+
     $username = $_POST["username"];
     $password = $_POST["password"];
     $name = $_POST["name"];

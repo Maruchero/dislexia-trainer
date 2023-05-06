@@ -2,8 +2,8 @@
 require_once("../model/ModelUsers.php");
 
 class ViewUsers {
-  static function create_user($username, $password, $name, $surname) {
-    $data = ModelUsers::create_user($username, $password, $name, $surname);
+  static function create_user($username, $password, $name, $surname, $role) {
+    $data = ModelUsers::create_user($username, $password, $name, $surname, $role);
     $json = json_encode($data);
     return $json;
   }
