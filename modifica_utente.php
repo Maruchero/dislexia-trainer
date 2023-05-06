@@ -8,7 +8,7 @@
   <title>Allenamento</title>
 
   <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/allenamento.css">
+  <link rel="stylesheet" href="css/profilo.css">
   <script src="js/ajax.js"></script>
   <script src="js/allenamento.js" defer></script>
   
@@ -18,6 +18,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
 </head>
 
 <body>
@@ -34,25 +37,34 @@
     </nav>
 
     <div class="content">
-      <h1 class="title">Livello <span id="titleLevel">1</span></h1>
+      <h1 class="title">Profilo utente</h1>
+      <?php
+      function delete_user($username){
 
-      <div class="relative">
-        <div class="result" id="result">
-          <span id="time"></span>
-          <button onclick="nextSentence()">Prossimo</button>
-        </div>
-        <span class="text-indicator"></span>
-        <div id="text"></div>
-      </div>
+      }
 
-      <button class="record-button" id="recordButton"><i class="fa-solid fa-microphone"></i></button>
+      function modify_user($username){
+        
+      }
+      ?>
     </div>
   <?php
   }
+
   session_start();
-  if (isset($_SESSION["username"])){
-      main();
+  if (isset($_SESSION["username"]) && isset($_GET['mode'])){
+    main();
+    switch ($_POST["mode"]) {
+
+        case 'delete_user':
+            delete_user($_SESSION["username"]);
+          break;
       
+        case 'modify_user':
+            modify_user($_SESSION["username"]);  
+          break;
+      }
+    
   } else {
       header("Location: index.php");
   }

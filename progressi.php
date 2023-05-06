@@ -11,8 +11,9 @@
 <body>
     <nav>
       <div class="left">
-        <a href="allenamento.html"><span>Allenamento</span></a>
-        <a href="progressi.html"><span>Progressi</span></a>
+        <a href="allenamento.php"><span>Allenamento</span></a>
+        <a href="progressi.php"><span>Progressi</span></a>
+        <a href="profilo.php"><span>Profilo</span></a>
       </div>
       <a href="logut.php"><span>Esci</span></a>
     </nav>
