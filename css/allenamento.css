@@ -79,10 +79,11 @@ h1 {
   left: 50%;
   bottom: 130%;
   translate: -50%;
-  display: none;
 }
 
 .result button {
+  cursor: pointer;
+
   margin-left: 10px;
   font-size: 22px;
   font-family: inherit;

@@ -5,7 +5,10 @@ class ModelAttempts {
 
   static function get_attempts($username) {
     global $conn;
-    $query = "SELECT * FROM attempts WHERE username='$username' ORDER BY dateAttempt ASC";
+    $query = "SELECT attempts.*, texts.level level
+              FROM attempts JOIN texts ON attempts.idText = texts.idText
+              WHERE username='$username' 
+              ORDER BY dateAttempt ASC";
     $result = mysqli_query($conn, $query);
     $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
     return $data;

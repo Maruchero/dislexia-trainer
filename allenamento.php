@@ -1,3 +1,9 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["username"])) header("Location: index.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +12,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Allenamento</title>
+
+  <script>
+    <?php
+    echo "const username = '" . $_SESSION["username"] . "';";
+    ?>
+  </script>
 
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/allenamento.css">
@@ -21,9 +33,6 @@
 </head>
 
 <body>
-  <?php
-  function main(){
-    ?>
     <nav>
       <div class="left">
         <a href="allenamento.html"><span>Allenamento</span></a>
@@ -38,7 +47,7 @@
       <div class="relative">
         <div class="result" id="result">
           <span id="time"></span>
-          <button onclick="nextSentence()">Prossimo</button>
+          <button onclick="nextSentence()" id="nextSentenceButton">Cominciamo!</button>
         </div>
         <span class="text-indicator"></span>
         <div id="text"></div>
@@ -46,16 +55,6 @@
 
       <button class="record-button" id="recordButton"><i class="fa-solid fa-microphone"></i></button>
     </div>
-  <?php
-  }
-  session_start();
-  if (isset($_SESSION["username"])){
-      main();
-      
-  } else {
-      header("Location: index.php");
-  }
-  ?>
 
 </body>
 

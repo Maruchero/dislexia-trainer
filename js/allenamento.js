@@ -48,52 +48,40 @@ recordButton.addEventListener("click", () => {
     recordButton.classList.add("active");
   }
 });
-recordButton.click();
 
 /*********************************************************
  * Words highlighting
  */
-const sentences = {
-  1: [
-    "Il gatto miagola",
-    "La casa è grande",
-    "Il cane abbaia",
-    "La macchina è rossa",
-    "Il cielo è azzurro",
-  ],
-  2: [
-    "La mia amica abita in una casa gialla",
-    "Il mio cane ama giocare con la palla",
-    "La mia macchina nuova è molto veloce",
-    "Il cielo di notte è pieno di stelle",
-    "La mia città preferita è New York",
-  ],
-  3: [
-    "La mia famiglia e io amiamo viaggiare in Europa",
-    "Il mio sogno è di visitare il Giappone",
-    "Mi piace leggere libri di fantascienza",
-    "Mi piace ascoltare la musica classica",
-    "Mi piace guardare film d'azione",
-  ],
-  4: [
-    "L'arte moderna mi affascina molto",
-    "Mi piace cucinare piatti esotici",
-    "Mi piace fare lunghe passeggiate nel parco",
-    "Mi piace andare in bicicletta nei fine settimana",
-  ],
-  5: [
-    "Mi piace imparare nuove lingue straniere",
-    "Mi piace fare volontariato per le associazioni umanitarie",
-    "Mi piace fare escursioni in montagna durante l'estate",
-  ],
-};
 let level = 1;
+let texts = [];
+let ready = false;
 
+async function get_texts() {
+  texts = await get_texts_by_level(level);
+  texts = texts.map((text) => text.text);
+  console.log("texts:", texts);
+}
+async function get_level() {
+  let attempts = await get_attempts(username);
+  console.log("attemps:", attempts);
+  if (attempts) {
+    for (let attempt of attempts)
+      if (attempt.level > level) level = attempt.level;
+  }
+  console.log("level:", level);
+}
+// First fetch of levels and texts
+get_level().then(() => {
+  get_texts().then(() => {
+    ready = true;
+  });
+});
+
+// Pick random text
 const generatedWords = [];
 function randomSentence() {
-  const randomSentence =
-    sentences[level][Math.floor(Math.random() * sentences[level].length)];
-  const words = randomSentence.split(" ");
+  const randomText = texts[Math.floor(Math.random() * texts.length)];
+  const words = randomText.split(" ");
   for (let word of words) {
     generatedWords.push(word);
     const span = document.createElement("span");
@@ -103,8 +91,11 @@ function randomSentence() {
   }
   text.style.translate = 0;
 }
-randomSentence();
 
+
+/********************************************************************************************
+ * Word validation
+ */
 let wordTimer = new Date();
 let register = [];
 function checkWords(string) {
@@ -112,7 +103,7 @@ function checkWords(string) {
   if (generatedWords == 0) return false;
   if (string != generatedWords[0].toLowerCase()) return false;
 
-  // Shift
+  // Shift and highlight
   generatedWords.shift();
   const span = text.querySelector(".word:not(.pronunced)");
   span.classList.add("pronunced");
@@ -129,7 +120,6 @@ function checkWords(string) {
   
   return true;
 }
-
 let validationIndex = 0;
 recognition.addEventListener("result", (event) => {
   console.log(event);
@@ -160,15 +150,6 @@ recognition.addEventListener("result", (event) => {
     lastWord = word;
   }
 });
-
-function nextSentence() {
-  advanceLevel();
-
-  text.innerHTML = "";
-  randomSentence();
-  wordTimer = new Date();
-  result.style.display = "none";
-}
 
 /********************************************************************************
  * Level handling
@@ -203,8 +184,15 @@ function advanceLevel() {
   }
 }
 
-async function ciao() {
-  const words = await get_words(1);
-  console.log(words);
+function nextSentence() {
+  if (!ready) return;
+  if (!recording) recordButton.click();
+
+  advanceLevel();
+
+  nextSentenceButton.innerHTML = "Prossimo"
+  text.innerHTML = "";
+  randomSentence();
+  wordTimer = new Date();
+  result.style.display = "none";
 }
-ciao();
