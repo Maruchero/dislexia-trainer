@@ -8,7 +8,7 @@
   <title>Allenamento</title>
 
   <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/profilo.css">
+  <!-- <link rel="stylesheet" href="css/modifica_utente.css"> -->
   <script src="js/ajax.js"></script>
   <script src="js/allenamento.js" defer></script>
   
@@ -37,14 +37,31 @@
     </nav>
 
     <div class="content">
-      <h1 class="title">Profilo utente</h1>
       <?php
-      function delete_user($username){
-
-      }
 
       function modify_user($username){
-        
+        include "backend/connect.php";
+        $sql = "SELECT * FROM users WHERE username='$username'";
+        $qry = mysqli_query($conn, $sql);
+        $data = mysqli_fetch_array($qry); 
+        ?>
+        <h1 class="title">Modifica utente</h1>
+        <form method="POST">
+            <label for="username">Username</label>
+            <input type="text" name="username" value="<?php echo $data['username'] ?>" Required>
+
+            <label for="password">Password</label>
+            <input type="password" name="id_film" value="<?php echo $data['password'] ?>" Required>
+
+            <label for="name">Name</label>
+            <input type="text" name="name" value="<?php echo $data['name'] ?>" Required>
+
+            <label for="surname">Surname</label>
+            <input type="text" name="surname" value="<?php echo $data['surname'] ?>" Required>
+            
+            <input type="submit" name="modify_button" class="form-btn" value="Modifica">
+        </form>
+        <?php
       }
       ?>
     </div>
@@ -54,16 +71,23 @@
   session_start();
   if (isset($_SESSION["username"]) && isset($_GET['mode'])){
     main();
-    switch ($_POST["mode"]) {
-
-        case 'delete_user':
-            delete_user($_SESSION["username"]);
-          break;
+    
+    if (isset($_POST["modify_button"])){
+      // Chiamata API ControllerUsers?mode=modify_user
       
-        case 'modify_user':
-            modify_user($_SESSION["username"]);  
-          break;
-      }
+    } else {
+      $mode = $_GET["mode"];
+      switch ($mode) {
+
+          case 'delete_user':
+            // Chiamata API ControllerUsers?mode=delete_user
+            break;
+        
+          case 'modify_user':
+              modify_user($_SESSION["username"]);  
+            break;
+        }
+    }
     
   } else {
       header("Location: index.php");
