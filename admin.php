@@ -25,17 +25,72 @@
   <?php
   function main($username){
     ?>
-    <nav>
-      <div class="left">
-        <a href="allenamento.php"><span>Allenamento</span></a>
-        <a href="progressi.php"><span>Progressi</span></a>
-        <a href="profilo.php"><span>Profilo</span></a>
-      </div>
-      <a href="logout.php"><span>Esci</span></a>
-    </nav>
-
     <div class="content">
       <h1 class="title">Profilo utente</h1>
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <tr>
+            <th>Nome utente</th>
+            <th>Password</th>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <!-- <th>Ruolo</th> -->
+
+        </tr>
+        <tbody>
+            <?php
+            require_once ("backend/connect.php");
+            
+            $query = "SELECT * FROM users";
+            $result = mysqli_query($conn, $query);
+            while ($row = mysqli_fetch_array($result)) {
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                $username = $row["username"];
+                $password = $row["password"];
+                $name = $row["name"];
+                $surname = $row["surname"];
+                $role = $row["role"];
+            ?>
+                <tr align="center">
+                <td><?php echo $username; ?></td>
+                    <td><?php echo $password; ?></td>
+                    <td><?php echo $name; ?></td>
+                    <td><?php echo $surname; ?></td>
+                    <td><?php echo $role; ?></td>
+                    <td><button type="submit" type="button"><?php echo  "<a href='modifica_utente.php?mode=delete_user&username=" . $username . "' >Elimina</a>"; ?></button>
+                    <button name="update"  type="submit" onclick="" type="button"><?php echo  "<a href='modify_utente.php?mode=delete_user&username=" . $username . "'>Modifica</a>"; ?></button></td>
+                    <td></td>
+                </tr>
+
+            <?php }
+            ?>
+        </tbody>
+
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <?php
         require_once("backend/connect.php");
         
@@ -51,7 +106,7 @@
             $password = $row["password"];
             $name = $row["name"];
             $surname = $row["surname"];
-            // $role = $row["role"];
+            $role = $row["role"];
         }
         $conn->close();
 
@@ -64,7 +119,7 @@
       ?>
       <td>
         <button type="submit" name="update" type="button"> <a href='modifica_utente.php?mode=update_user'>Modifica</a></button>
-        <?php //if (isset($_SESSION["admin"])){ echo "<button type='submit' name='button' type='button'><a href='modifica_utente.php?mode=delete_user'>Elimina</a></button>";}?>
+        <?php if (isset($_SESSION["admin"])){ echo "<button type='submit' name='button' type='button'><a href='modifica_utente.php?mode=delete_user'>Elimina</a></button>";}?>
         
       </td>
 
@@ -73,9 +128,7 @@
   }
 
   session_start();
-  if (isset($_SESSION["user"])){
-    main($_SESSION["user"]);
-  } else if (isset($_SESSION["admin"])){
+  if (isset($_SESSION["admin"])){
     main($_SESSION["admin"]);
   } else {
       header("Location: index.php");

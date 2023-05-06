@@ -9,8 +9,6 @@
 
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/modifica_utente.css">
-  <script src="js/ajax.js"></script>
-  <script src="js/allenamento.js" defer></script>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,8 +35,8 @@
     <div class="content">
       <?php
 
-      function modify_user($username){
-        include "backend/connect.php";
+      function update_user($username){
+        require_once ("backend/connect.php");
         $sql = "SELECT * FROM users WHERE username='$username'";
         $qry = mysqli_query($conn, $sql);
         $data = mysqli_fetch_array($qry); 
@@ -67,22 +65,47 @@
   }
 
   session_start();
-  if (isset($_SESSION["username"]) && isset($_GET['mode'])){
+  if ((isset($_SESSION["user"]) || isset($_SESSION["admin"])) && isset($_GET['mode'])){
     main();
     
     if (isset($_POST["modify_button"])){
-      // Chiamata API ControllerUsers?mode=modify_user
+      require_once("backend/model/ModelUsers.php");
+      if (!isset($_POST["username"])) die("Missing parameter 'username'");
+      if (!isset($_POST["password"])) die("Missing parameter 'password'");
+      if (!isset($_POST["name"])) die("Missing parameter 'name'");
+      if (!isset($_POST["surname"])) die("Missing parameter 'surname'");
+
+      $username = $_POST["username"];
+      $password = $_POST["password"];
+      $name = $_POST["name"];
+      $surname = $_POST["surname"];
+      
+      ModelUsers::update_user($username, $password, $name, $surname);
+      header("Location: profilo.php");
       
     } else {
       $mode = $_GET["mode"];
+      
+      if (isset($_GET["username"])){
+        $username_ = $_GET["username"];
+      }
       switch ($mode) {
 
           case 'delete_user':
-            // Chiamata API ControllerUsers?mode=delete_user
+            require_once("backend/model/ModelUsers.php");
+            if (!isset($username_)) die("Missing parameter 'username'");
+            ModelUsers::delete_user($username_);
+            header("Location: index.php");
             break;
         
-          case 'modify_user':
-              modify_user($_SESSION["username"]);  
+          case 'update_user':
+            if (!isset($username_)){
+              update_user($username_);
+            } else if (isset($_SESSION["user"])){
+              update_user($_SESSION["user"]);
+            } else if (isset($_SESSION["admin"])){
+              update_user($_SESSION["admin"]);
+            }
             break;
         }
     }
