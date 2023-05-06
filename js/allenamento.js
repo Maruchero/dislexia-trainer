@@ -50,15 +50,15 @@ recordButton.addEventListener("click", () => {
 });
 
 /*********************************************************
- * Words highlighting
+ * Texts and highlighting
  */
 let level = 1;
 let texts = [];
+let register = [];
 let ready = false;
 
 async function get_texts() {
   texts = await get_texts_by_level(level);
-  texts = texts.map((text) => text.text);
   console.log("texts:", texts);
 }
 async function get_level() {
@@ -69,6 +69,10 @@ async function get_level() {
       if (attempt.level > level) level = attempt.level;
   }
   console.log("level:", level);
+
+  register = attempts
+    .filter((attemp) => attemp.level == level)
+    .map((attempt) => Number.parseFloat(attempt.time_elapsed));
 }
 // First fetch of levels and texts
 get_level().then(() => {
@@ -78,10 +82,16 @@ get_level().then(() => {
 });
 
 // Pick random text
+let timeExpected;
+let textId;
+let attempTime;
 const generatedWords = [];
 function randomSentence() {
-  const randomText = texts[Math.floor(Math.random() * texts.length)];
+  let chosen = texts[Math.floor(Math.random() * texts.length)];
+  textId = chosen.idText;
+  const randomText = chosen.text;
   const words = randomText.split(" ");
+  timeExpected = words.length * 700;
   for (let word of words) {
     generatedWords.push(word);
     const span = document.createElement("span");
@@ -90,14 +100,13 @@ function randomSentence() {
     text.appendChild(span);
   }
   text.style.translate = 0;
+  attempTime = new Date();
 }
-
 
 /********************************************************************************************
  * Word validation
  */
 let wordTimer = new Date();
-let register = [];
 function checkWords(string) {
   // console.log(string, "==", generatedWords[0].toLowerCase(), "?", string == generatedWords[0].toLowerCase());
   if (generatedWords == 0) return false;
@@ -110,14 +119,24 @@ function checkWords(string) {
 
   // End of sentence
   if (generatedWords.length == 0) {
-    now = new Date();
-    let timeElapsed = now - wordTimer;
+    let now = new Date();
+    let timeElapsed = now - wordTimer - 1;
     register.push(timeElapsed);
-    
-    result.style.display = "block";
-    time.innerHTML = timeElapsed / 1000 + "s"
+
+    result.style.display = "flex";
+    time.innerHTML = timeElapsed / 1000 + "s";
+
+    // Push attemp
+    let passed = timeElapsed < timeExpected;
+    let formattedDate = attempTime
+      .toISOString()
+      .replace(/T/, " ")
+      .replace(/\..+/, "");
+    create_attempt(username, textId, formattedDate, timeElapsed / 1000, passed).then((r) => {
+      console.log(r);
+    })
   }
-  
+
   return true;
 }
 let validationIndex = 0;
@@ -144,7 +163,7 @@ recognition.addEventListener("result", (event) => {
   }
 
   // Validation
-  for (;validationIndex < pronunced.length; validationIndex++) {
+  for (; validationIndex < pronunced.length; validationIndex++) {
     const word = pronunced[validationIndex];
     checkWords(word);
     lastWord = word;
@@ -160,17 +179,9 @@ function setLevel(p_level) {
   register = [];
 }
 
-const levelAverages = {
-  1: 3500,
-  2: 5000,
-  3: 10000,
-  4: 20000,
-  5: 20000,
-}
-const averageCount = 5;
 function advanceLevel() {
   if (register.length < averageCount) return;
-  
+
   // Get the avg
   let avg = 0;
   for (let i = 0; i < averageCount; i++) {
@@ -188,9 +199,9 @@ function nextSentence() {
   if (!ready) return;
   if (!recording) recordButton.click();
 
-  advanceLevel();
+  // advanceLevel();
 
-  nextSentenceButton.innerHTML = "Prossimo"
+  nextSentenceButton.innerHTML = "Prossimo";
   text.innerHTML = "";
   randomSentence();
   wordTimer = new Date();

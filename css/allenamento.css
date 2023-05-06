@@ -75,16 +75,21 @@ h1 {
 
 /* Result */
 .result {
+  width: 100%;
   position: absolute;
   left: 50%;
   bottom: 130%;
   translate: -50%;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .result button {
   cursor: pointer;
 
-  margin-left: 10px;
   font-size: 22px;
   font-family: inherit;
   color: white;
