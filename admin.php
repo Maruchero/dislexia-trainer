@@ -1,3 +1,7 @@
+<?php
+require_once("backend/model/ModelUsers.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +12,7 @@
   <title>Allenamento</title>
 
   <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/profilo.css">
+  <link rel="stylesheet" href="css/admin.css">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,6 +29,7 @@
     ?>
     <nav>
       <div class="left">
+        <a href="admin.php"><span>Admin</span></a>
         <a href="profilo.php"><span>Profilo</span></a>
       </div>
       <a href="logout.php"><span>Esci</span></a>
@@ -35,38 +40,30 @@
       <table>
         <tr>
             <th>Nome utente</th>
-            <th>Password</th>
             <th>Nome</th>
             <th>Cognome</th>
             <th>Ruolo</th>
-            <th>Elimina</th>
-            <th>Modifica</th>
+            <th></th>
+            <th></th>
 
         </tr>
         <tbody>
             <?php
-            // require_once("backend/model/ModelUsers.php");
-            // $result = ModelUsers::get_all_users();
-
-            require_once ("backend/connect.php");
-            
-            $query = "SELECT * FROM users";
-            $result = mysqli_query($conn, $query);
-            while ($row = mysqli_fetch_array($result)) {
-                $username = $row["username"];
-                $password = $row["password"];
-                $name = $row["name"];
-                $surname = $row["surname"];
-                $role = $row["role"];
+            $users = ModelUsers::get_all_users();
+            foreach ($users as $user) {
+                $username = $user["username"];
+                $password = $user["password"];
+                $name = $user["name"];
+                $surname = $user["surname"];
+                $role = $user["role"];
             ?>
-                <tr align="center">
-                <td><?php echo $username; ?></td>
-                    <td><?php echo $password; ?></td>
+                <tr>
+                    <td><?php echo $username; ?></td>
                     <td><?php echo $name; ?></td>
                     <td><?php echo $surname; ?></td>
                     <td><?php echo $role; ?></td>
-                    <td><button type="submit" type="button"><?php echo  "<a href='modifica_utente.php?mode=delete_user&username=" . $username . "' >Elimina</a>"; ?></button></td>
-                    <td><button name="update"  type="submit" onclick="" type="button"><?php echo  "<a href='modifica_utente.php?mode=update_user&username=" . $username . "'>Modifica</a>"; ?></button></td>
+                    <td><?php echo "<a class='progress' href='progressi.php?user=" . $username . "'>Progressi <i class='fa-solid fa-up-right-from-square'></i></a>"; ?></td>
+                    <td><button type="button"><?php echo  "<a href='modifica_utente.php?mode=delete_user&username=" . $username . "' ><i class='fa-solid fa-trash-can'></i></a>"; ?></button></td>
                 </tr>
 
             <?php }

@@ -23,8 +23,12 @@ h1 {
   position: relative;
   left: 50%;
   transform: translateX(-50%);
+
   width: 90vw;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  
   font-size: 32px;
 }
 

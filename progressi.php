@@ -1,7 +1,9 @@
 <?php
 session_start();
+require_once("backend/model/ModelAttempts.php");
 
-if (!isset($_SESSION["username"])) header("Location: index.php");
+if (!isset($_SESSION["user"])) header("Location: index.php");
+$user = $_SESSION["user"];
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +13,14 @@ if (!isset($_SESSION["username"])) header("Location: index.php");
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/allenamento.css">
+    <link rel="stylesheet" href="css/progressi.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -21,13 +30,31 @@ if (!isset($_SESSION["username"])) header("Location: index.php");
         <a href="progressi.php"><span>Progressi</span></a>
         <a href="profilo.php"><span>Profilo</span></a>
       </div>
-      <a href="logut.php"><span>Esci</span></a>
+      <a href="logout.php"><span>Esci</span></a>
     </nav>
     <div class="content">
-        <h2>Progressi</h3>
-        <section>
-
-        </section>
+        <h1>Progressi</h1>
+        <table>
+          <tr>
+            <th>Tempo impiegato</th>
+            <th>Livello</th>
+            <th>Testo</th>
+            <th>Data</th>
+            <th>Passato</th>
+          </tr>
+          <?php
+          $attempts = ModelAttempts::get_attempts($user);
+          foreach($attempts as $attempt) {
+            echo "<tr>";
+            echo "<td>".$attempt["time_elapsed"]."</td>";
+            echo "<td>".$attempt["level"]."</td>";
+            echo "<td>".$attempt["idText"]."</td>";
+            echo "<td>".$attempt["dateAttempt"]."</td>";
+            echo "<td>".($attempt["passed"] ? "<i class='fas fa-check'></i>" : "<i class='fas fa-xmark'></i>")."</td>";
+            echo "</tr>";
+          }
+          ?>
+        </table>
     </div>
 </body>
 

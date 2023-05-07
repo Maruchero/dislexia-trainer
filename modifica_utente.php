@@ -20,60 +20,51 @@
 </head>
 
 <body>
-  <?php
-  function main(){
-    if (isset($_SESSION["user"])){
-    ?>
     <nav>
-    <div class="left">
-      <?php
+      <div class="left">
+        <?php
         if (isset($_SESSION["user"])){
           ?>
           <a href="allenamento.php"><span>Allenamento</span></a>
           <a href="progressi.php"><span>Progressi</span></a>
-          <?php 
+          <?php
         }
         ?>
         <a href="profilo.php"><span>Profilo</span></a>
       </div>
       <a href="logout.php"><span>Esci</span></a>
     </nav>
-    <?php
-    }
-    ?>
+    
+  <?php
+  function main(){
+    function update_user($username){
+      require_once ("backend/connect.php");
+      $query = "SELECT * FROM users WHERE username='$username'";
+      $result = mysqli_query($conn, $query);
+      $row = mysqli_fetch_array($result); 
+      $conn->close();
 
-    <div class="content">
-      <?php
-
-      function update_user($username){
-        require_once ("backend/connect.php");
-        $query = "SELECT * FROM users WHERE username='$username'";
-        $result = mysqli_query($conn, $query);
-        $row = mysqli_fetch_array($result); 
-        $conn->close();
-
-        ?>
+      ?>
+      <div class="content">
         <h1 class="title">Modifica utente</h1>
         <form method="POST">
-            <label for="username">Username</label>
-            <input type="text" name="username" value="<?php echo $row['username'] ?>" Required>
+          <label for="username">Username</label>
+          <input type="text" name="username" value="<?php echo $row['username'] ?>" required>
 
-            <label for="password">Password</label>
-            <input type="password" name="password" value="<?php echo $row['password'] ?>" Required>
+          <label for="password">Password</label>
+          <input type="password" name="password" value="<?php echo $row['password'] ?>" required>
 
-            <label for="name">Name</label>
-            <input type="text" name="name" value="<?php echo $row['name'] ?>" Required>
+          <label for="name">Name</label>
+          <input type="text" name="name" value="<?php echo $row['name'] ?>" required>
 
-            <label for="surname">Surname</label>
-            <input type="text" name="surname" value="<?php echo $row['surname'] ?>" Required>
-            
-            <input type="submit" name="modify_button" class="form-btn" value="Modifica">
+          <label for="surname">Surname</label>
+          <input type="text" name="surname" value="<?php echo $row['surname'] ?>" required>
+          
+          <input type="submit" name="modify_button" class="form-btn" value="Modifica">
         </form>
-        <?php
-      }
-      ?>
-    </div>
-  <?php
+      </div>
+      <?php
+    }
   }
 
   session_start();

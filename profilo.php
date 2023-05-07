@@ -26,12 +26,17 @@
     ?>
     <nav>
       <div class="left">
-      <?php
+        <?php
         if (isset($_SESSION["user"])){
-          ?>
+        ?>
           <a href="allenamento.php"><span>Allenamento</span></a>
           <a href="progressi.php"><span>Progressi</span></a>
-          <?php 
+        <?php 
+        }
+        if (isset($_SESSION["admin"])){
+        ?>
+        <a href="admin.php"><span>Admin</span></a>
+        <?php 
         }
         ?>
         <a href="profilo.php"><span>Profilo</span></a>
@@ -67,11 +72,8 @@
                 <tr><td>Cognome:</td><td>" . $surname . "</td></tr>
               </table>");
       ?>
-      <td>
-        <button type="submit" name="update" type="button"> <a href='modifica_utente.php?mode=update_user'>Modifica</a></button>
-        <?php //if (isset($_SESSION["admin"])){ echo "<button type='submit' name='button' type='button'><a href='modifica_utente.php?mode=delete_user'>Elimina</a></button>";}?>
+      <button type="submit" name="update" type="button"> <a href='modifica_utente.php?mode=update_user'>Modifica</a></button>
         
-      </td>
 
     </div>
   <?php

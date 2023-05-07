@@ -1,0 +1,45 @@
+h1 {
+  text-align: center;
+}
+
+table {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  border-collapse: collapse;
+  width: 90%;
+}
+
+table th {
+  text-align: left;
+  padding: 8px;
+}
+
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  border: 0;
+  background: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.fa-trash-can {
+  color: red;
+}
+
+.progress {
+  color: rgb(0, 108, 216);
+}
