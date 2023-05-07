@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["username"])) header("Location: index.php");
+if (!isset($_SESSION["user"])) header("Location: index.php");
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +15,7 @@ if (!isset($_SESSION["username"])) header("Location: index.php");
 
   <script>
     <?php
-    echo "const username = '" . $_SESSION["username"] . "';";
+    echo "const username = '" . $_SESSION["user"] . "';";
     ?>
   </script>
 

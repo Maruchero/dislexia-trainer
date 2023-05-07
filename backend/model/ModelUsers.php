@@ -1,7 +1,14 @@
 <?php
-require_once("../connect.php");
+require_once(__DIR__ . "\\..\\connect.php");
 
 class ModelUsers {
+
+  static function get_all_users() {
+    global $conn;
+    $query = "SELECT * FROM users";
+    $data = mysqli_query($conn, $query);
+    return $data;
+  }
 
   static function create_user($username, $password, $name, $surname, $role) {
     global $conn;

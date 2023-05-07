@@ -13,7 +13,7 @@
         <div class="left">
             <a href="allenamento.php"><span>Allenamento</span></a>
             <a href="progressi.php"><span>Progressi</span></a>
-    </div>
+        </div>
     </nav>
     <?php
     function login($username = null, $password = null){
@@ -34,30 +34,44 @@
     }
 
     session_start();
-    if (isset($_SESSION["username"])){
+    if (isset($_SESSION["user"])){
         header("Location: allenamento.php");
+    } else if (isset($_SESSION["admin"])){
+        header("Location: admin.php");
     }
 
     if (isset($_POST["button"])){
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-        require("backend/connect.php");
+        require_once("backend/connect.php");
 
         $sql = "SELECT *
                 FROM users
-                WHERE username = '$username' AND password = '$password'";
+                WHERE username = '$username' AND password = '$password' AND role='User'";
 
         $result = mysqli_query($conn, $sql);
-        $conn->close();
 
         if (mysqli_num_rows($result) == 1) {
-            $_SESSION["username"] =  $username;
+            $_SESSION["user"] =  $username;
             header("Location: allenamento.php");
+            exit;
         } else {
-            login($username, $password);
-            echo "Username o password errate.";
+            $sql = "SELECT *
+                    FROM users
+                    WHERE username = '$username' AND password = '$password' AND role='Admin'";
+
+            $result = mysqli_query($conn, $sql);
+
+            if (mysqli_num_rows($result) == 1) {
+                $_SESSION["admin"] =  $username;
+                header("Location: admin.php");
+            } else {
+                login($username, $password);
+                echo "Username o password errate.";
+            }
         }
+        $conn->close();
     } else {
         login();
     }
