@@ -21,7 +21,9 @@ h1 {
 /* Text */
 #text {
   position: relative;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90vw;
   text-align: center;
   font-size: 32px;
 }

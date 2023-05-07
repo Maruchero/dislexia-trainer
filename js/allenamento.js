@@ -3,6 +3,9 @@
 // chat
 // text
 
+const TEXT_RECOGNITION_TIME = 1500;
+const WORD_PRONUNCE_TIME = 500;
+
 // Initial checks
 if (
   window.hasOwnProperty("SpeechRecognition") ||
@@ -54,7 +57,7 @@ recordButton.addEventListener("click", () => {
  */
 let level = 1;
 let texts = [];
-let register = [];
+let passedArray = [];
 let ready = false;
 
 async function get_texts() {
@@ -66,13 +69,13 @@ async function get_level() {
   console.log("attemps:", attempts);
   if (attempts) {
     for (let attempt of attempts)
-      if (attempt.level > level) level = attempt.level;
+      if (attempt.level > level) level = parseInt(attempt.level);
   }
   console.log("level:", level);
 
-  register = attempts
+  passedArray = attempts
     .filter((attemp) => attemp.level == level)
-    .map((attempt) => Number.parseFloat(attempt.time_elapsed));
+    .map((attempt) => Number.parseFloat(attempt.passed));
 }
 // First fetch of levels and texts
 get_level().then(() => {
@@ -91,7 +94,7 @@ function randomSentence() {
   textId = chosen.idText;
   const randomText = chosen.text;
   const words = randomText.split(" ");
-  timeExpected = words.length * 700;
+  timeExpected = words.length * WORD_PRONUNCE_TIME;
   for (let word of words) {
     generatedWords.push(word);
     const span = document.createElement("span");
@@ -120,28 +123,34 @@ function checkWords(string) {
   // End of sentence
   if (generatedWords.length == 0) {
     let now = new Date();
-    let timeElapsed = now - wordTimer - 1;
-    register.push(timeElapsed);
+    let timeElapsed = now - wordTimer - TEXT_RECOGNITION_TIME;
+    let passed = timeElapsed < timeExpected;
+    let passedInt = passed ? 1 : 0;
+    passedArray.push(passedInt);
 
     result.style.display = "flex";
     time.innerHTML = timeElapsed / 1000 + "s";
 
     // Push attemp
-    let passed = timeElapsed < timeExpected;
     let formattedDate = attempTime
       .toISOString()
       .replace(/T/, " ")
       .replace(/\..+/, "");
-    create_attempt(username, textId, formattedDate, timeElapsed / 1000, passed).then((r) => {
+    create_attempt(
+      username,
+      textId,
+      formattedDate,
+      timeElapsed / 1000,
+      passed
+    ).then((r) => {
       console.log(r);
-    })
+    });
   }
 
   return true;
 }
 let validationIndex = 0;
 recognition.addEventListener("result", (event) => {
-  console.log(event);
   // New prompt
   const isNewPrompt = event.results.length > lastParagraph;
   if (isNewPrompt) {
@@ -176,22 +185,24 @@ recognition.addEventListener("result", (event) => {
 function setLevel(p_level) {
   level = p_level;
   titleLevel.innerHTML = p_level;
-  register = [];
+  passedArray = [];
 }
 
+const attemptsToPass = 3;
+const successfulAttemptsToPass = 2;
 function advanceLevel() {
-  if (register.length < averageCount) return;
+  if (passedArray.length < attemptsToPass) return;
 
-  // Get the avg
-  let avg = 0;
-  for (let i = 0; i < averageCount; i++) {
-    avg += register[register.length - averageCount + i];
+  // Check if it was reached the minimun number of passed attempts
+  let passedCount = 0;
+  for (let i = 0; i < attemptsToPass; i++) {
+    if (passedArray[passedArray.length - i - 1] == 1) passedCount++;
   }
-  avg /= averageCount;
 
-  // Next level
-  if (avg < levelAverages[level]) {
+  if (passedCount > successfulAttemptsToPass && level < 5) {
+    console.log("Salita di livello");
     setLevel(level + 1);
+    get_texts();
   }
 }
 
@@ -199,7 +210,7 @@ function nextSentence() {
   if (!ready) return;
   if (!recording) recordButton.click();
 
-  // advanceLevel();
+  advanceLevel();
 
   nextSentenceButton.innerHTML = "Prossimo";
   text.innerHTML = "";
