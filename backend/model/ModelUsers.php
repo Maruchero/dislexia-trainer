@@ -1,5 +1,5 @@
 <?php
-require_once("../connect.php");
+include("../connect.php");
 
 class ModelUsers {
 

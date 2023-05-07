@@ -51,7 +51,7 @@
             <input type="text" name="username" value="<?php echo $data['username'] ?>" Required>
 
             <label for="password">Password</label>
-            <input type="password" name="id_film" value="<?php echo $data['password'] ?>" Required>
+            <input type="password" name="password" value="<?php echo $data['password'] ?>" Required>
 
             <label for="name">Name</label>
             <input type="text" name="name" value="<?php echo $data['name'] ?>" Required>
@@ -71,9 +71,10 @@
   session_start();
   if ((isset($_SESSION["user"]) || isset($_SESSION["admin"])) && isset($_GET['mode'])){
     main();
+    require_once("backend/model/ModelUsers.php");
     
     if (isset($_POST["modify_button"])){
-      require_once("backend/model/ModelUsers.php");
+
       if (!isset($_POST["username"])) die("Missing parameter 'username'");
       if (!isset($_POST["password"])) die("Missing parameter 'password'");
       if (!isset($_POST["name"])) die("Missing parameter 'name'");
@@ -93,10 +94,10 @@
       if (isset($_GET["username"])){
         $username_ = $_GET["username"];
       }
+      
       switch ($mode) {
 
           case 'delete_user':
-            require_once("backend/model/ModelUsers.php");
             if (!isset($username_)) die("Missing parameter 'username'");
             ModelUsers::delete_user($username_);
             header("Location: index.php");

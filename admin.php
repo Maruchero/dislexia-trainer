@@ -16,24 +16,24 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+        
 </head>
 
 <body>
   <?php
   function main($username){
     ?>
-    <div class="content">
-      <h1 class="title">Profilo utente</h1>
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <div class="">
+      <h1 class="title">Utenti</h1>
+      <table>
         <tr>
             <th>Nome utente</th>
             <th>Password</th>
             <th>Nome</th>
             <th>Cognome</th>
             <th>Ruolo</th>
+            <th>Elimina</th>
+            <th>Modifica</th>
 
         </tr>
         <tbody>
@@ -55,9 +55,8 @@
                     <td><?php echo $name; ?></td>
                     <td><?php echo $surname; ?></td>
                     <td><?php echo $role; ?></td>
-                    <td><button type="submit" type="button"><?php echo  "<a href='modifica_utente.php?mode=delete_user&username=" . $username . "' >Elimina</a>"; ?></button>
-                    <button name="update"  type="submit" onclick="" type="button"><?php echo  "<a href='modifica_utente.php?mode=update_user&username=" . $username . "'>Modifica</a>"; ?></button></td>
-                    <td></td>
+                    <td><button type="submit" type="button"><?php echo  "<a href='modifica_utente.php?mode=delete_user&username=" . $username . "' >Elimina</a>"; ?></button></td>
+                    <td><button name="update"  type="submit" onclick="" type="button"><?php echo  "<a href='modifica_utente.php?mode=update_user&username=" . $username . "'>Modifica</a>"; ?></button></td>
                 </tr>
 
             <?php }
