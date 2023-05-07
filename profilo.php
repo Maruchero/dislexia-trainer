@@ -16,19 +16,24 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+
 </head>
 
 <body>
   <?php
   function main($username){
+    
     ?>
     <nav>
       <div class="left">
-        <a href="allenamento.php"><span>Allenamento</span></a>
-        <a href="progressi.php"><span>Progressi</span></a>
+      <?php
+        if (isset($_SESSION["user"])){
+          ?>
+          <a href="allenamento.php"><span>Allenamento</span></a>
+          <a href="progressi.php"><span>Progressi</span></a>
+          <?php 
+        }
+        ?>
         <a href="profilo.php"><span>Profilo</span></a>
       </div>
       <a href="logout.php"><span>Esci</span></a>

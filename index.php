@@ -13,7 +13,7 @@
         <div class="left">
             <a href="allenamento.php"><span>Allenamento</span></a>
             <a href="progressi.php"><span>Progressi</span></a>
-    </div>
+        </div>
     </nav>
     <?php
     function login($username = null, $password = null){

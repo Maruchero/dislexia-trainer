@@ -23,6 +23,13 @@
   <?php
   function main($username){
     ?>
+    <nav>
+      <div class="left">
+        <a href="profilo.php"><span>Profilo</span></a>
+      </div>
+      <a href="logout.php"><span>Esci</span></a>
+    </nav>
+
     <div class="">
       <h1 class="title">Utenti</h1>
       <table>
