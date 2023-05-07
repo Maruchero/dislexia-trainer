@@ -79,7 +79,6 @@
   session_start();
   if ((isset($_SESSION["user"]) || isset($_SESSION["admin"])) && isset($_GET['mode'])){
     main();
-    require_once("backend/model/ModelUsers.php");
     
     if (isset($_POST["modify_button"])){
 
@@ -93,6 +92,8 @@
       $name = $_POST["name"];
       $surname = $_POST["surname"];
       
+      
+      require_once("backend/model/ModelUsers.php");
       ModelUsers::update_user($username, $password, $name, $surname);
       header("Location: profilo.php");
       
@@ -107,6 +108,7 @@
 
           case 'delete_user':
             if (!isset($username_)) die("Missing parameter 'username'");
+            require_once("backend/model/ModelUsers.php");
             ModelUsers::delete_user($username_);
             header("Location: index.php");
             break;
