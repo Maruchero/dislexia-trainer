@@ -45,6 +45,9 @@
         </tr>
         <tbody>
             <?php
+            // require_once("backend/model/ModelUsers.php");
+            // $result = ModelUsers::get_all_users();
+
             require_once ("backend/connect.php");
             
             $query = "SELECT * FROM users";

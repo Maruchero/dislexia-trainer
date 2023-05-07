@@ -92,7 +92,6 @@
       $name = $_POST["name"];
       $surname = $_POST["surname"];
       
-      
       require_once("backend/model/ModelUsers.php");
       ModelUsers::update_user($username, $password, $name, $surname);
       header("Location: profilo.php");
