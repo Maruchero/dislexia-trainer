@@ -22,7 +22,7 @@ class ModelUsers {
     global $conn;
     $query = "SELECT * FROM users WHERE username='$username'";
     $result = mysqli_query($conn, $query);
-    $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
     return $data;
   }
 
