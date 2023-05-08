@@ -50,14 +50,14 @@ require_once("backend/model/ModelUsers.php");
         <label for="username">Username</label>
         <input type="text" name="username" value="<?php echo $user_row['username'] ?>" required disabled>
 
-        <label for="password">Password attule</label>
-        <input type="password" name="password_attule" required>
+        <label for="current_password">Password attule</label>
+        <input type="password" name="current_password" required>
 
-        <label for="password">Nuova password</label>
-        <input type="password" name="nuvova_password" required>
+        <label for="new_password">Nuova password</label>
+        <input type="password" name="new_password" required>
 
-        <label for="password">Conferma password</label>
-        <input type="password" name="conferma_password" required>
+        <label for="confirm_password">Conferma password</label>
+        <input type="password" name="confirm_password" required>
 
         <label for="name">Name</label>
         <input type="text" name="name" value="<?php echo $user_row['name'] ?>" required>
@@ -95,20 +95,24 @@ require_once("backend/model/ModelUsers.php");
       $result = mysqli_query($conn, $sql);
 
       if (mysqli_num_rows($result) == 1) {
-        if (isset($_POST["modify_button"])) {
+        if (isset($_POST["button"])) {
 
           if (!isset($_POST["username"])) die("Missing parameter 'username'");
-          if (!isset($_POST["password"])) die("Missing parameter 'password'");
+          if (!isset($_POST["current_password"])) die("Missing parameter 'current_password'");
+          if (!isset($_POST["new_password"])) die("Missing parameter 'new_password'");
+          if (!isset($_POST["confirm_password"])) die("Missing parameter 'confirm_password'");
           if (!isset($_POST["name"])) die("Missing parameter 'name'");
           if (!isset($_POST["surname"])) die("Missing parameter 'surname'");
     
           $usernameU = $_POST["username"];
-          $password = $_POST["password"];
+          $current_password = $_POST["current_password"];
+          $new_password = $_POST["new_password"];
+          $confirm_password = $_POST["confirm_password"];
           $name = $_POST["name"];
           $surname = $_POST["surname"];
           
           require_once("backend/model/ModelUsers.php");
-          ModelUsers::update_user($usernameU, $password, $name, $surname);
+          ModelUsers::update_user($usernameU, $new_password, $name, $surname);
           header("Location: profilo.php");
           
         } else {
