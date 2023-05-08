@@ -47,25 +47,25 @@ require_once("backend/model/ModelUsers.php");
     <div class="content">
       <h1 class="title">Modifica utente</h1>
       <form method="POST">
-        <label for="username">Username</label>
-        <input type="text" name="username" value="<?php echo $user_row['username'] ?>" required disabled>
+        <label for="username">Username *</label>
+        <input type="text" name="nome" value="<?php echo $user_row['username'] ?>" required disabled>
 
-        <label for="current_password">Password attule</label>
+        <label for="current_password">Password attule *</label>
         <input type="password" name="current_password" required>
 
-        <label for="new_password">Nuova password</label>
-        <input type="password" name="new_password" required>
-
-        <label for="confirm_password">Conferma password</label>
-        <input type="password" name="confirm_password" required>
-
-        <label for="name">Name</label>
+        <label for="name">Name *</label>
         <input type="text" name="name" value="<?php echo $user_row['name'] ?>" required>
 
-        <label for="surname">Surname</label>
+        <label for="surname">Surname *</label>
         <input type="text" name="surname" value="<?php echo $user_row['surname'] ?>" required>
+
+        <label for="new_password">Nuova password</label>
+        <input type="password" name="new_password">
+
+        <label for="confirm_password">Conferma password</label>
+        <input type="password" name="confirm_password">
         
-        <input type="submit" name="modify_button" class="form-btn" value="Modifica">
+        <input type="submit" name="button" class="form-btn" value="Modifica">
       </form>
     </div>
     <?php
@@ -79,78 +79,66 @@ require_once("backend/model/ModelUsers.php");
     } else if (isset($_SESSION["admin"])) {
       $usernameS = $_SESSION["admin"];
     }
+    
+    if (isset($_POST["button"])) {
 
+      $current_password = $_POST["current_password"];
+      $new_password = $_POST["new_password"];
+      $confirm_password = $_POST["confirm_password"];
+      $name = $_POST["name"];
+      $surname = $_POST["surname"];
 
+      if (!isset($_POST["current_password"])) die("Missing parameter 'current_password'");
 
-    if (!isset($_POST["password"])) die("Missing parameter 'password'");
-    $usernameU = $_POST["username"];
-    $password = $_POST["password"];
-
-    if ($usernameS == $usernameU) {
 
       $sql = "SELECT *
               FROM users
-              WHERE username = '$usernameU' AND password = '$password'";
+              WHERE username = '$usernameS' AND password = '$current_password'";
+              echo $sql;
 
       $result = mysqli_query($conn, $sql);
 
       if (mysqli_num_rows($result) == 1) {
-        if (isset($_POST["button"])) {
-
-          if (!isset($_POST["username"])) die("Missing parameter 'username'");
-          if (!isset($_POST["current_password"])) die("Missing parameter 'current_password'");
-          if (!isset($_POST["new_password"])) die("Missing parameter 'new_password'");
-          if (!isset($_POST["confirm_password"])) die("Missing parameter 'confirm_password'");
-          if (!isset($_POST["name"])) die("Missing parameter 'name'");
-          if (!isset($_POST["surname"])) die("Missing parameter 'surname'");
-    
-          $usernameU = $_POST["username"];
-          $current_password = $_POST["current_password"];
-          $new_password = $_POST["new_password"];
-          $confirm_password = $_POST["confirm_password"];
-          $name = $_POST["name"];
-          $surname = $_POST["surname"];
-          
-          require_once("backend/model/ModelUsers.php");
-          ModelUsers::update_user($usernameU, $new_password, $name, $surname);
-          header("Location: profilo.php");
-          
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        if (strlen($new_password) > 0 && $new_password == $confirm_password && $new_password != $current_password){
+          ModelUsers::update_user($usernameS, $new_password, $name, $surname);
         } else {
-          $mode = $_GET["mode"];
-          
-          if (isset($_GET["username"])){
-            $username_U = $_GET["username"];
-          }
-          
-          switch ($mode) {
-    
-              case 'delete_user':
-                if (!isset($username_U)) die("Missing parameter 'username'");
-                require_once("backend/model/ModelUsers.php");
-                ModelUsers::delete_user($username_);
-                header("Location: index.php");
-                break;
-            
-              case 'update_user':
-                if (isset($username_U)){
-                  update_user($username_U);
-                } else if (isset($_SESSION["user"])){
-                  update_user($_SESSION["user"]);
-                } else if (isset($_SESSION["admin"])){
-                  update_user($_SESSION["admin"]);
-                }
-                break;
-            }
-        }
+          ModelUsers::update_user($usernameS, $current_password, $name, $surname);
 
+        }
+        header("Location: profilo.php");
       } else {
         echo ("Password errata");
       }
-        
+      
+      
     } else {
-      echo ("Nome utente diverso dall'utente attuale");
+      $mode = $_GET["mode"];
+      
+      if (isset($_GET["username"])){
+        $username_U = $_GET["username"];
+      }
+      
+      switch ($mode) {
+
+          case 'delete_user':
+            if (!isset($username_U)) die("Missing parameter 'username'");
+            require_once("backend/model/ModelUsers.php");
+            ModelUsers::delete_user($username_);
+            header("Location: index.php");
+            break;
+        
+          case 'update_user':
+            if (isset($username_U)){
+              update_user($username_U);
+            } else if (isset($_SESSION["user"])){
+              update_user($_SESSION["user"]);
+            } else if (isset($_SESSION["admin"])){
+              update_user($_SESSION["admin"]);
+            }
+            break;
+        }
     }
-    
     
   } else {
       header("Location: index.php");
