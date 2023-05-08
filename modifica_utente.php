@@ -143,11 +143,9 @@ require_once("backend/model/ModelUsers.php");
         echo ("Password errata");
       }
         
-      } else {
-        echo ("Nome utente diverso dall'utente attuale");
-      }
-      
-    
+    } else {
+      echo ("Nome utente diverso dall'utente attuale");
+    }
     
     
   } else {
