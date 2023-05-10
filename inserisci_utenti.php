@@ -1,5 +1,11 @@
 <?php
+session_start();
 require_once("backend/model/ModelUsers.php");
+
+if (isset($_SESSION["user"])) {
+  header("Location: allenamento.php");
+  exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +34,7 @@ require_once("backend/model/ModelUsers.php");
 <body>
   <?php
   function main($usernameU=null, $password=null, $confirm_password=null, $name=null, $surname=null){
+    global $errors;
     ?>
     <nav>
       <div class="left">
@@ -42,9 +49,11 @@ require_once("backend/model/ModelUsers.php");
       <form action="inserisci_utenti.php" method="POST">
         <label for="username">Username *</label>
         <input type="text" name="username" value="<?php echo $usernameU ?>" pattern="^[a-zA-Z0-9]{5,}$" required title="Inserisci un username di almeno 5 caratteri alfanumerici">
+        <span class="error"><?php if (isset($errors["username"])) {echo $errors["username"];} ?></span>
 
         <label for="password">Password *</label>
         <input type="password" name="password" value="<?php echo $password ?>" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" required title="La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale">
+        <span class="error"><?php if (isset($errors["password"])) {echo $errors["password"];} ?></span>
 
         <label for="confirm_password">Conferma password *</label>
         <input type="password" name="confirm_password" value="<?php echo $confirm_password ?>" required data-equals="password" title="Le password non corrispondono">
@@ -62,37 +71,34 @@ require_once("backend/model/ModelUsers.php");
     <?php
   }
 
-  session_start();
-  if (isset($_SESSION["admin"])){
-    if (isset($_POST["button"])){
-      $username = $_POST["username"];
-      $password = $_POST["password"];
-      $confirm_password = $_POST["confirm_password"];
-      $name = $_POST["name"];
-      $surname = $_POST["surname"];
-      $role = "User";
-      
-      $query = "SELECT * FROM users WHERE username='$username'";
-      $result = mysqli_query($conn, $query);
+  $errors = [];
+  if (isset($_POST["button"])){
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $confirm_password = $_POST["confirm_password"];
+    $name = $_POST["name"];
+    $surname = $_POST["surname"];
+    $role = "User";
+    
+    $query = "SELECT * FROM users WHERE username='$username'";
+    $result = mysqli_query($conn, $query);
 
-      if (mysqli_num_rows($result) == 1) {
-        main($username, $password, $confirm_password, $name, $surname);
-        echo("Nome utente già presente nel database. Usare un nome utente diverso");
-      } else {
-        if (strlen($password) >= 8 && $password == $confirm_password) {
-          $user_row = ModelUsers::create_user($username, password_hash($password, PASSWORD_DEFAULT), $name, $surname, $role);
-          header("Location: admin.php");
-        } else {
-          main($username, $password, $confirm_password, $name, $surname);
-          echo("Le due password non concidono");
-        }
-      }
-
+    // Check errors
+    if (mysqli_num_rows($result) == 1)
+      $errors["username"] = "Nome utente già presente nel database. Usare un nome utente diverso";
+    if ($password != $confirm_password)
+      $errors["password"] = "Le due password non concidono";
+    
+    // If everything went good
+    if ($errors) {
+      main($username, $password, $confirm_password, $name, $surname);
     } else {
-      main();
-    } 
+      $user_row = ModelUsers::create_user($username, password_hash($password, PASSWORD_DEFAULT), $name, $surname, $role);
+      header("Location: admin.php");
+    }
+
   } else {
-      header("Location: index.php");
+    main();
   }
   ?>
 

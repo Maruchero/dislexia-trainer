@@ -21,6 +21,7 @@
     </nav>
     <?php
     function login($username = null, $password = null){
+        global $errors;
         ?>
         <div class="content">
             <h2>Accedi per usare l'app</h3>
@@ -30,6 +31,7 @@
 
                 <label for="password">Password</label>
                 <input type="password" name="password" value="<?php echo $password ?>" required>
+                <span class="error"><?php if (isset($errors["credentials"])) {echo $errors["credentials"];} ?></span>
 
                 <input type="submit" name="button" value="Accedi">
             </form>
@@ -44,6 +46,7 @@
         header("Location: admin.php");
     }
 
+    $errors = [];
     if (isset($_POST["button"])){
         $username = $_POST["username"];
         $password = $_POST["password"];
@@ -51,20 +54,19 @@
         require_once("backend/model/ModelUsers.php");
 
         $user = ModelUsers::get_user($username);
-        print_r($user);
 
         if ($user && password_verify($password, $user["password"])) {
             if ($user["role"] == "Admin") {
                 $_SESSION["admin"] =  $username;
-                header("Location: allenamento.php");
+                header("Location: admin.php");
             } else {
                 $_SESSION["user"] =  $username;
-                header("Location: admin.php");
+                header("Location: allenamento.php");
             }
             exit;
         } else {
+            $errors["credentials"] = "Username o password errate.";
             login($username, $password);
-            echo "Username o password errate.";
         }
     } else {
         login();

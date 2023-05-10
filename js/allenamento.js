@@ -3,8 +3,8 @@
 // chat
 // text
 
-const TEXT_RECOGNITION_TIME = 1500;
-const WORD_PRONUNCE_TIME = 500;
+const TEXT_RECOGNITION_TIME = 1800;
+const WORD_PRONUNCE_TIME = 600;
 
 // Initial checks
 if (
@@ -206,6 +206,7 @@ function advanceLevel() {
     get_texts();
   }
 }
+// TODO also use advanceLevel at the beginning
 
 function nextSentence() {
   if (!ready) return;

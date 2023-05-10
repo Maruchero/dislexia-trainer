@@ -12,6 +12,7 @@ body {
 }
 
 form {
+    width: 320px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -30,8 +31,8 @@ form input {
     color: var(--white);
 }
 
-label[for="password"] {
-    margin-top: 10px;
+label {
+    margin-top: 5px;
 }
 
 input[type='submit'] {

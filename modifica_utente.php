@@ -42,7 +42,6 @@ if (isset($_SESSION["user"])) {
         } else if (isset($_SESSION["admin"])){
           ?>
           <a href="admin.php"><span>Admin</span></a>
-          <a href="inserisci_utenti.php"><span>Inserisci utenti</span></a>
           <?php
         }
         ?>
@@ -53,7 +52,8 @@ if (isset($_SESSION["user"])) {
     
   <?php
 
-  function update_user($usernameU, $current_password=null, $new_password=null, $confirm_password=null){
+  function update_user($usernameU, $current_password=null, $name=null, $surname=null, $new_password=null, $confirm_password=null) {
+    global $errors;
     $user_row = ModelUsers::get_user($usernameU);
     ?>
     <div class="content">
@@ -64,15 +64,17 @@ if (isset($_SESSION["user"])) {
 
         <label for="current_password">Password attule *</label>
         <input type="password" name="current_password" value="<?php echo $current_password ?>" required>
+        <span class="error"><?php if (isset($errors["password"])) {echo $errors["password"];} ?></span>
 
         <label for="name">Nome *</label>
-        <input type="text" name="name" value="<?php echo $user_row['name'] ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo nome, senza numeri o caratteri speciali">
+        <input type="text" name="name" value="<?php echo $name ?? $user_row['name'] ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo nome, senza numeri o caratteri speciali">
 
         <label for="surname">Cognome *</label>
-        <input type="text" name="surname" value="<?php echo $user_row['surname'] ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo cognome, senza numeri o caratteri speciali">
+        <input type="text" name="surname" value="<?php echo $surname ?? $user_row['surname'] ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo cognome, senza numeri o caratteri speciali">
 
         <label for="new_password">Nuova password</label>
         <input type="password" name="new_password" value="<?php echo $new_password ?>" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" title="La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale">
+        <span class="error"><?php if (isset($errors["new_password"])) {echo $errors["new_password"];} ?></span>
 
         <label for="confirm_password">Conferma nuova password</label>
         <input type="password" name="confirm_password" value="<?php echo $confirm_password ?>" data-equals="new_password" title="Le password non corrispondono">
@@ -83,6 +85,7 @@ if (isset($_SESSION["user"])) {
     <?php
   }
 
+  $errors = [];
   if ((isset($_SESSION["user"]) || isset($_SESSION["admin"])) && isset($_GET['mode'])) {
     
     if (isset($_SESSION["user"])) {
@@ -92,7 +95,7 @@ if (isset($_SESSION["user"])) {
     }
     
     if (isset($_POST["button"])) {
-
+      // The form has been submitted
       $current_password = $_POST["current_password"];
       $new_password = $_POST["new_password"];
       $confirm_password = $_POST["confirm_password"];
@@ -102,39 +105,38 @@ if (isset($_SESSION["user"])) {
       if (!isset($_POST["current_password"])) die("Missing parameter 'current_password'");
 
 
-      $query = "SELECT *
-              FROM users
-              WHERE username = '$usernameS' AND password = '$current_password'";
+      $user = ModelUsers::get_user($usernameS);
 
-      $result = mysqli_query($conn, $query);
-
-      if (mysqli_num_rows($result) == 1) {
+      if ($user && password_verify($current_password, $user["password"])) {
 
         if (strlen($new_password) > 0){
-          if ($new_password == $confirm_password){
-            if (strlen($new_password) > 0 && $new_password != $current_password){
-              ModelUsers::update_user($usernameS, $new_password, $name, $surname);
-              header("Location: profilo.php");
-            } else {
-              update_user($usernameU, $current_password, $new_password, $confirm_password);
-              echo("Hai già usato questa password in precedenza");
-            }
-          } else {
-            update_user($usernameU, $current_password, $new_password, $confirm_password);
-            echo("Le due password non concidono");
+          // There's also a password change
+          if ($new_password !== $confirm_password)
+            $errors["new_password"] = "Le due password non concidono";
+          if (password_verify($new_password, $user["password"]))
+            $errors["new_password"] = "Hai già usato questa password in precedenza";
+
+          if (!$errors) {
+            ModelUsers::update_user($usernameS, password_hash($new_password, PASSWORD_DEFAULT), $name, $surname);
+            header("Location: profilo.php");
+            exit;
           }
         } else {
-          ModelUsers::update_user($usernameS, $current_password, $name, $surname);
+          // Only other changes
+          ModelUsers::update_user($usernameS, password_hash($current_password, PASSWORD_DEFAULT), $name, $surname);
           header("Location: profilo.php");
         }
-
       } else {
-        update_user($usernameU, $current_password, $new_password, $confirm_password);
-        echo ("Password attuale errata");
+        $errors["password"] = "Password attuale errata";
+      }
+
+      if ($errors) {
+        update_user($usernameS, $current_password, $name, $surname, $new_password, $confirm_password);
+        exit;
       }
       
-      
     } else {
+      // Form not submitted
       $mode = $_GET["mode"];
       
       switch ($mode) {
@@ -148,7 +150,6 @@ if (isset($_SESSION["user"])) {
         
           case 'update_user':
             update_user($usernameS);
-
             break;
         }
     }

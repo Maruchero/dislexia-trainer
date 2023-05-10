@@ -2,6 +2,11 @@
 session_start();
 require_once("backend/model/ModelAttempts.php");
 
+if (isset($_SESSION["admin"]) && !isset($_GET["user"])) {
+  header("Location: admin.php");
+  exit;
+}
+
 if (isset($_GET['user'])){
   $user = $_GET['user'];
 } else if (isset($_SESSION["user"])) {
@@ -44,7 +49,6 @@ if (isset($_GET['user'])){
         } else if (isset($_SESSION["admin"])){
           ?>
           <a href="admin.php"><span>Admin</span></a>
-          <a href="inserisci_utenti.php"><span>Inserisci utenti</span></a>
           <?php
         }
         ?>

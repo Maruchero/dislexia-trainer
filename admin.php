@@ -70,7 +70,7 @@ if (isset($_SESSION["user"])) {
                 <td><?php echo $name; ?></td>
                 <td><?php echo $surname; ?></td>
                 <td><?php echo $role; ?></td>
-                <td><?php echo "<a class='progress' href='progressi.php?user=" . $username . "'>Progressi <i class='fa-solid fa-up-right-from-square'></i></a>"; ?></td>
+                <td><?php if ($role !== "Admin") echo "<a class='progress' href='progressi.php?user=" . $username . "'>Progressi <i class='fa-solid fa-up-right-from-square'></i></a>"; ?></td>
                 <td><button type="button"><?php echo  "<a href='modifica_utente.php?mode=delete_user&username=" . $username . "' ><i class='fa-solid fa-trash-can'></i></a>"; ?></button></td>
             </tr>
           <?php }
