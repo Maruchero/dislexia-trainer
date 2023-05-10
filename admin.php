@@ -9,7 +9,7 @@ require_once("backend/model/ModelUsers.php");
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Allenamento</title>
+  <title>Admin</title>
 
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/admin.css">
@@ -30,6 +30,7 @@ require_once("backend/model/ModelUsers.php");
     <nav>
       <div class="left">
         <a href="admin.php"><span>Admin</span></a>
+        <a href="inserisci_utenti.php"><span>Inserisci utenti</span></a>
         <a href="profilo.php"><span>Profilo</span></a>
       </div>
       <a href="logout.php"><span>Esci</span></a>
