@@ -27,7 +27,7 @@ require_once("backend/model/ModelUsers.php");
 
 <body>
   <?php
-  function main(){
+  function main($username=null, $password=null, $confirm_password=null, $name=null, $surname=null){
     ?>
     <nav>
       <div class="left">
@@ -42,19 +42,19 @@ require_once("backend/model/ModelUsers.php");
       <h1 class="title">Inserisci utente</h1>
       <form action="inserisci_utenti.php" method="POST">
         <label for="username">Username *</label>
-        <input type="text" name="username" pattern="^[a-zA-Z0-9]{5}$" required title="Inserisci un username di 5 caratteri alfanumerici">
+        <input type="text" name="username" value="<?php echo $username ?>" pattern="^[a-zA-Z0-9]{5}$" required title="Inserisci un username di 5 caratteri alfanumerici">
 
         <label for="password">Password *</label>
-        <input type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" required title="La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale">
+        <input type="password" name="password" value="<?php echo $password ?>" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" required title="La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale">
 
         <label for="confirm_password">Conferma password *</label>
-        <input type="password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" required data-equals="password" title="Le password non corrispondono">
+        <input type="password" name="confirm_password" value="<?php echo $confirm_password ?>" required data-equals="password" title="Le password non corrispondono">
 
         <label for="name">Name *</label>
-        <input type="text" name="name" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo nome, senza numeri o caratteri speciali">
+        <input type="text" name="name" value="<?php echo $name ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo nome, senza numeri o caratteri speciali">
 
         <label for="surname">Surname *</label>
-        <input type="text" name="surname" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo cognome, senza numeri o caratteri speciali">
+        <input type="text" name="surname" value="<?php echo $surname ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo cognome, senza numeri o caratteri speciali">
               
         <input type="submit" name="button" class="form-btn" value="Inserisci">
       </form>
@@ -68,12 +68,27 @@ require_once("backend/model/ModelUsers.php");
     if (isset($_POST["button"])){
       $username = $_POST["username"];
       $password = $_POST["password"];
+      $confirm_password = $_POST["confirm_password"];
       $name = $_POST["name"];
       $surname = $_POST["surname"];
       $role = "User";
+      
+      $query = "SELECT * FROM users WHERE username='$username'";
+      $result = mysqli_query($conn, $query);
 
-      $user_row = ModelUsers::create_user($username, $password, $name, $surname, $role);
-      header("Location: admin.php");
+      if (mysqli_num_rows($result) == 1) {
+        main($username, $password, $confirm_password, $name, $surname);
+        echo("Nome utente già presente nel database. Usare un nome utente diverso");
+      } else {
+        if (strlen($password) >= 8 && $password == $confirm_password) {
+          $user_row = ModelUsers::create_user($username, $password, $name, $surname, $role);
+          header("Location: admin.php");
+        } else {
+          main($username, $password, $confirm_password, $name, $surname);
+          echo("Le due password non concidono");
+        }
+      }
+
     } else {
       main($_SESSION["admin"]);
     } 

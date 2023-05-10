@@ -72,6 +72,9 @@ require_once("backend/model/ModelUsers.php");
         </tbody>
 
       </table>
+
+      <a class='progress' href='inserisci_utenti.php'>Inserisci utenti</a>
+
     </div>
   <?php
   }

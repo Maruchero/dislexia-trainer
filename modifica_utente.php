@@ -48,7 +48,7 @@ require_once("backend/model/ModelUsers.php");
     
   <?php
 
-  function update_user($usernameU){
+  function update_user($usernameU, $current_password=null, $new_password=null, $confirm_password=null){
     $user_row = ModelUsers::get_user($usernameU);
     ?>
     <div class="content">
@@ -58,7 +58,7 @@ require_once("backend/model/ModelUsers.php");
         <input type="text" name="username" value="<?php echo $user_row['username'] ?>" pattern="^[a-zA-Z0-9]{5}$" required disabled title="Inserisci un username di 5 caratteri alfanumerici">
 
         <label for="current_password">Password attule *</label>
-        <input type="password" name="current_password" required>
+        <input type="password" name="current_password" value="<?php echo $current_password ?>" required>
 
         <label for="name">Nome *</label>
         <input type="text" name="name" value="<?php echo $user_row['name'] ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo nome, senza numeri o caratteri speciali">
@@ -67,10 +67,10 @@ require_once("backend/model/ModelUsers.php");
         <input type="text" name="surname" value="<?php echo $user_row['surname'] ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo cognome, senza numeri o caratteri speciali">
 
         <label for="new_password">Nuova password</label>
-        <input type="password" name="new_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" title="La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale">
+        <input type="password" name="new_password" value="<?php echo $new_password ?>" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" title="La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale">
 
         <label for="confirm_password">Conferma nuova password</label>
-        <input type="password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" data-equals="new_password" title="Le password non corrispondono">
+        <input type="password" name="confirm_password" value="<?php echo $confirm_password ?>" data-equals="new_password" title="Le password non corrispondono">
         
         <input type="submit" name="button" class="form-btn" value="Modifica">
       </form>
@@ -97,24 +97,35 @@ require_once("backend/model/ModelUsers.php");
       if (!isset($_POST["current_password"])) die("Missing parameter 'current_password'");
 
 
-      $sql = "SELECT *
+      $query = "SELECT *
               FROM users
               WHERE username = '$usernameS' AND password = '$current_password'";
 
-      $result = mysqli_query($conn, $sql);
+      $result = mysqli_query($conn, $query);
 
       if (mysqli_num_rows($result) == 1) {
-        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-        if (strlen($new_password) > 0 && $new_password == $confirm_password && $new_password != $current_password){
-          ModelUsers::update_user($usernameS, $new_password, $name, $surname);
+
+        if (strlen($new_password) > 0){
+          if ($new_password == $confirm_password){
+            if (strlen($new_password) > 0 && $new_password != $current_password){
+              ModelUsers::update_user($usernameS, $new_password, $name, $surname);
+              header("Location: profilo.php");
+            } else {
+              update_user($usernameU, $current_password, $new_password, $confirm_password);
+              echo("Hai già usato questa password in precedenza");
+            }
+          } else {
+            update_user($usernameU, $current_password, $new_password, $confirm_password);
+            echo("Le due password non concidono");
+          }
         } else {
           ModelUsers::update_user($usernameS, $current_password, $name, $surname);
-
+          header("Location: profilo.php");
         }
-        header("Location: profilo.php");
+
       } else {
-        update_user($usernameS);
-        echo ("Password errata");
+        update_user($usernameU, $current_password, $new_password, $confirm_password);
+        echo ("Password attuale errata");
       }
       
       
