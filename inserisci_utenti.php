@@ -27,7 +27,7 @@ require_once("backend/model/ModelUsers.php");
 
 <body>
   <?php
-  function main($username=null, $password=null, $confirm_password=null, $name=null, $surname=null){
+  function main($usernameU=null, $password=null, $confirm_password=null, $name=null, $surname=null){
     ?>
     <nav>
       <div class="left">
@@ -42,7 +42,7 @@ require_once("backend/model/ModelUsers.php");
       <h1 class="title">Inserisci utente</h1>
       <form action="inserisci_utenti.php" method="POST">
         <label for="username">Username *</label>
-        <input type="text" name="username" value="<?php echo $username ?>" pattern="^[a-zA-Z0-9]{5}$" required title="Inserisci un username di 5 caratteri alfanumerici">
+        <input type="text" name="username" value="<?php echo $usernameU ?>" pattern="^[a-zA-Z0-9]{5}$" required title="Inserisci un username di 5 caratteri alfanumerici">
 
         <label for="password">Password *</label>
         <input type="password" name="password" value="<?php echo $password ?>" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" required title="La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale">
@@ -90,7 +90,7 @@ require_once("backend/model/ModelUsers.php");
       }
 
     } else {
-      main($_SESSION["admin"]);
+      main();
     } 
   } else {
       header("Location: index.php");
