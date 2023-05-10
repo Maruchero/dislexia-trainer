@@ -36,6 +36,7 @@
         if (isset($_SESSION["admin"])){
         ?>
         <a href="admin.php"><span>Admin</span></a>
+        <a href="inserisci_utenti.php"><span>Inserisci utenti</span></a>
         <?php 
         }
         ?>

@@ -2,8 +2,16 @@
 session_start();
 require_once("backend/model/ModelAttempts.php");
 
-if (!isset($_SESSION["user"])) header("Location: index.php");
-$user = $_SESSION["user"];
+if (isset($_GET['user'])){
+  $user = $_GET['user'];
+} else if (isset($_SESSION["user"])) {
+  $user = $_SESSION["user"];
+} else if (isset($_SESSION["admin"])) {
+  $user = $_SESSION["admin"];
+} else {
+  header("Location: index.php");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -25,9 +33,21 @@ $user = $_SESSION["user"];
 
 <body>
     <nav>
-      <div class="left">
-        <a href="allenamento.php"><span>Allenamento</span></a>
-        <a href="progressi.php"><span>Progressi</span></a>
+    <div class="left">
+        <?php
+
+        if (isset($_SESSION["user"])){
+          ?>
+          <a href="allenamento.php"><span>Allenamento</span></a>
+          <a href="progressi.php"><span>Progressi</span></a>
+          <?php
+        } else if (isset($_SESSION["admin"])){
+          ?>
+          <a href="admin.php"><span>Admin</span></a>
+          <a href="inserisci_utenti.php"><span>Inserisci utenti</span></a>
+          <?php
+        }
+        ?>
         <a href="profilo.php"><span>Profilo</span></a>
       </div>
       <a href="logout.php"><span>Esci</span></a>

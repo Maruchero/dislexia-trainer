@@ -27,10 +27,17 @@ require_once("backend/model/ModelUsers.php");
     <nav>
       <div class="left">
         <?php
+        session_start();
+
         if (isset($_SESSION["user"])){
           ?>
           <a href="allenamento.php"><span>Allenamento</span></a>
           <a href="progressi.php"><span>Progressi</span></a>
+          <?php
+        } else if (isset($_SESSION["admin"])){
+          ?>
+          <a href="admin.php"><span>Admin</span></a>
+          <a href="inserisci_utenti.php"><span>Inserisci utenti</span></a>
           <?php
         }
         ?>
@@ -48,22 +55,22 @@ require_once("backend/model/ModelUsers.php");
       <h1 class="title">Modifica utente</h1>
       <form method="POST">
         <label for="username">Username *</label>
-        <input type="text" name="nome" value="<?php echo $user_row['username'] ?>" required disabled>
+        <input type="text" name="username" value="<?php echo $user_row['username'] ?>" pattern="^[a-zA-Z0-9]{5}$" required disabled title="Inserisci un username di 5 caratteri alfanumerici">
 
         <label for="current_password">Password attule *</label>
         <input type="password" name="current_password" required>
 
-        <label for="name">Name *</label>
-        <input type="text" name="name" value="<?php echo $user_row['name'] ?>" required>
+        <label for="name">Nome *</label>
+        <input type="text" name="name" value="<?php echo $user_row['name'] ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo nome, senza numeri o caratteri speciali">
 
-        <label for="surname">Surname *</label>
-        <input type="text" name="surname" value="<?php echo $user_row['surname'] ?>" required>
+        <label for="surname">Cognome *</label>
+        <input type="text" name="surname" value="<?php echo $user_row['surname'] ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo cognome, senza numeri o caratteri speciali">
 
         <label for="new_password">Nuova password</label>
-        <input type="password" name="new_password">
+        <input type="password" name="new_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" title="La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale">
 
-        <label for="confirm_password">Conferma password</label>
-        <input type="password" name="confirm_password">
+        <label for="confirm_password">Conferma nuova password</label>
+        <input type="password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" data-equals="new_password" title="Le password non corrispondono">
         
         <input type="submit" name="button" class="form-btn" value="Modifica">
       </form>
@@ -71,7 +78,6 @@ require_once("backend/model/ModelUsers.php");
     <?php
   }
 
-  session_start();
   if ((isset($_SESSION["user"]) || isset($_SESSION["admin"])) && isset($_GET['mode'])) {
     
     if (isset($_SESSION["user"])) {
@@ -94,7 +100,6 @@ require_once("backend/model/ModelUsers.php");
       $sql = "SELECT *
               FROM users
               WHERE username = '$usernameS' AND password = '$current_password'";
-              echo $sql;
 
       $result = mysqli_query($conn, $sql);
 
@@ -108,16 +113,13 @@ require_once("backend/model/ModelUsers.php");
         }
         header("Location: profilo.php");
       } else {
+        update_user($usernameS);
         echo ("Password errata");
       }
       
       
     } else {
       $mode = $_GET["mode"];
-      
-      if (isset($_GET["username"])){
-        $username_U = $_GET["username"];
-      }
       
       switch ($mode) {
 
@@ -129,13 +131,8 @@ require_once("backend/model/ModelUsers.php");
             break;
         
           case 'update_user':
-            if (isset($username_U)){
-              update_user($username_U);
-            } else if (isset($_SESSION["user"])){
-              update_user($_SESSION["user"]);
-            } else if (isset($_SESSION["admin"])){
-              update_user($_SESSION["admin"]);
-            }
+            update_user($usernameS);
+
             break;
         }
     }
