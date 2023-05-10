@@ -48,34 +48,24 @@
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-        require_once("backend/connect.php");
+        require_once("backend/model/ModelUsers.php");
 
-        $sql = "SELECT *
-                FROM users
-                WHERE username = '$username' AND password = '$password' AND role='User'";
+        $user = ModelUsers::get_user($username);
+        print_r($user);
 
-        $result = mysqli_query($conn, $sql);
-
-        if (mysqli_num_rows($result) == 1) {
-            $_SESSION["user"] =  $username;
-            header("Location: allenamento.php");
+        if ($user && password_verify($password, $user["password"])) {
+            if ($user["role"] == "Admin") {
+                $_SESSION["admin"] =  $username;
+                header("Location: allenamento.php");
+            } else {
+                $_SESSION["user"] =  $username;
+                header("Location: admin.php");
+            }
             exit;
         } else {
-            $sql = "SELECT *
-                    FROM users
-                    WHERE username = '$username' AND password = '$password' AND role='Admin'";
-
-            $result = mysqli_query($conn, $sql);
-
-            if (mysqli_num_rows($result) == 1) {
-                $_SESSION["admin"] =  $username;
-                header("Location: admin.php");
-            } else {
-                login($username, $password);
-                echo "Username o password errate.";
-            }
+            login($username, $password);
+            echo "Username o password errate.";
         }
-        $conn->close();
     } else {
         login();
     }

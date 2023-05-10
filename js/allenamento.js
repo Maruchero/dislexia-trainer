@@ -71,6 +71,7 @@ async function get_level() {
     for (let attempt of attempts)
       if (attempt.level > level) level = parseInt(attempt.level);
   }
+  setLevel(level);
   console.log("level:", level);
 
   passedArray = attempts

@@ -32,7 +32,6 @@ require_once("backend/model/ModelUsers.php");
     <nav>
       <div class="left">
         <a href="admin.php"><span>Admin</span></a>
-        <a href="inserisci_utenti.php"><span>Inserisci utenti</span></a>
         <a href="profilo.php"><span>Profilo</span></a>
       </div>
       <a href="logout.php"><span>Esci</span></a>
@@ -42,7 +41,7 @@ require_once("backend/model/ModelUsers.php");
       <h1 class="title">Inserisci utente</h1>
       <form action="inserisci_utenti.php" method="POST">
         <label for="username">Username *</label>
-        <input type="text" name="username" value="<?php echo $usernameU ?>" pattern="^[a-zA-Z0-9]{5}$" required title="Inserisci un username di 5 caratteri alfanumerici">
+        <input type="text" name="username" value="<?php echo $usernameU ?>" pattern="^[a-zA-Z0-9]{5,}$" required title="Inserisci un username di almeno 5 caratteri alfanumerici">
 
         <label for="password">Password *</label>
         <input type="password" name="password" value="<?php echo $password ?>" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" required title="La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale">
@@ -81,7 +80,7 @@ require_once("backend/model/ModelUsers.php");
         echo("Nome utente già presente nel database. Usare un nome utente diverso");
       } else {
         if (strlen($password) >= 8 && $password == $confirm_password) {
-          $user_row = ModelUsers::create_user($username, $password, $name, $surname, $role);
+          $user_row = ModelUsers::create_user($username, password_hash($password, PASSWORD_DEFAULT), $name, $surname, $role);
           header("Location: admin.php");
         } else {
           main($username, $password, $confirm_password, $name, $surname);

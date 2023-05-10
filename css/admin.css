@@ -2,12 +2,32 @@ h1 {
   text-align: center;
 }
 
-table {
+.insert-users  {
+  background: #333;
+  color: white;
+
+  display: block;
+  width: max-content;
+  margin-bottom: 1em;
+  padding: 10px 15px;
+  border-radius: 5px;
+
+  float: right;
+  position: relative;
+  right: 50px;
+}
+
+.table-container {
   position: relative;
   left: 50%;
   transform: translateX(-50%);
+  width: 90vw;
+  overflow-x: auto;
+}
+
+table {
   border-collapse: collapse;
-  width: 90%;
+  width: 100%;
 }
 
 table th {

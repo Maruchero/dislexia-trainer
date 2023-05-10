@@ -53,8 +53,8 @@ $sql = "CREATE TABLE IF NOT EXISTS `attempts` (
       `dateAttempt` DATETIME NOT NULL,
       `time_elapsed` DOUBLE NOT NULL,
       `passed` BOOLEAN NOT NULL,
-      FOREIGN KEY(`username`) REFERENCES `users`(`username`),
-      FOREIGN KEY(`idText`) REFERENCES `texts`(`idText`)
+      FOREIGN KEY(`username`) REFERENCES `users`(`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+      FOREIGN KEY(`idText`) REFERENCES `texts`(`idText`) ON DELETE CASCADE ON UPDATE CASCADE
 );";
 
 if ($conn->query($sql) === TRUE) {
@@ -64,8 +64,10 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $sql = "INSERT IGNORE INTO `users` (`username`, `password`, `name`, `surname`, `role`) VALUES
-        ('MR2376', 'password1234', 'Mario', 'Rossi', 'Admin'),
-        ('CF1541', '#pizza', 'Chiara', 'Ferragni', 'User')
+        ('admin', '\$2y\$10\$Lsd.aOk6WkrJgaPWAJAskuZoe14isgxrKnTY5Bs6Fs8.Rmbkvq4Ee', 'admin', 'admin', 'Admin'),
+        ('user0', '\$2y\$10\$ECUnK525e6J.XsigUvLIDeTIKbFmO71TZ1uRsbkeyqT95iccK4gOu', 'user0', 'user0', 'User'),
+        ('user1', '\$2y\$10\$UlnPZAQxAFf7bD6Y.0p..ONKwScUpd/r4h5mxaTpzBdZK9tPYuX1G', 'user1', 'user1', 'User'),
+        ('user2', '\$2y\$10\$3zf3qSX9jIJtPwqf/2euOeXqLVa6ZI5/temTNJDMVM05iksIOIV7C', 'user2', 'user2', 'User')
 ;";
 
 if ($conn->query($sql) === TRUE) {

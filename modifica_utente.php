@@ -1,5 +1,10 @@
 <?php
 require_once("backend/model/ModelUsers.php");
+
+if (isset($_SESSION["user"])) {
+  header("Location: allenamento.php");
+  exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -135,9 +140,9 @@ require_once("backend/model/ModelUsers.php");
       switch ($mode) {
 
           case 'delete_user':
-            if (!isset($username_U)) die("Missing parameter 'username'");
+            if (!isset($_GET["username"])) die("Missing parameter 'username'");
             require_once("backend/model/ModelUsers.php");
-            ModelUsers::delete_user($username_);
+            ModelUsers::delete_user($_GET["username"]);
             header("Location: index.php");
             break;
         

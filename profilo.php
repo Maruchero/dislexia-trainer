@@ -36,7 +36,6 @@
         if (isset($_SESSION["admin"])){
         ?>
         <a href="admin.php"><span>Admin</span></a>
-        <a href="inserisci_utenti.php"><span>Inserisci utenti</span></a>
         <?php 
         }
         ?>
@@ -68,13 +67,12 @@
 
         echo ("<table>
                 <tr><td>Nome utente:</td><td>" . $username . "</td></tr>
-                <tr><td>Password:</td><td>" . str_repeat("•", strlen($password)) . "</td></tr>
+                <tr><td>Password:</td><td>" . str_repeat("•", 8) . "</td></tr>
                 <tr><td>Nome:</td><td>" . $name . "</td></tr>
                 <tr><td>Cognome:</td><td>" . $surname . "</td></tr>
               </table>");
       ?>
       <button type="submit" name="update" type="button"> <a href='modifica_utente.php?mode=update_user'>Modifica</a></button>
-        
 
     </div>
   <?php

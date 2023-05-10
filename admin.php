@@ -1,5 +1,10 @@
 <?php
 require_once("backend/model/ModelUsers.php");
+
+if (isset($_SESSION["user"])) {
+  header("Location: allenamento.php");
+  exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -30,61 +35,55 @@ require_once("backend/model/ModelUsers.php");
     <nav>
       <div class="left">
         <a href="admin.php"><span>Admin</span></a>
-        <a href="inserisci_utenti.php"><span>Inserisci utenti</span></a>
         <a href="profilo.php"><span>Profilo</span></a>
       </div>
       <a href="logout.php"><span>Esci</span></a>
     </nav>
 
-    <div class="">
+    <div class="content">
       <h1 class="title">Utenti</h1>
-      <table>
-        <tr>
-            <th>Nome utente</th>
-            <th>Nome</th>
-            <th>Cognome</th>
-            <th>Ruolo</th>
-            <th></th>
-            <th></th>
 
-        </tr>
-        <tbody>
-            <?php
-            $users = ModelUsers::get_all_users();
-            foreach ($users as $user) {
-                $username = $user["username"];
-                $password = $user["password"];
-                $name = $user["name"];
-                $surname = $user["surname"];
-                $role = $user["role"];
-            ?>
-                <tr>
-                    <td><?php echo $username; ?></td>
-                    <td><?php echo $name; ?></td>
-                    <td><?php echo $surname; ?></td>
-                    <td><?php echo $role; ?></td>
-                    <td><?php echo "<a class='progress' href='progressi.php?user=" . $username . "'>Progressi <i class='fa-solid fa-up-right-from-square'></i></a>"; ?></td>
-                    <td><button type="button"><?php echo  "<a href='modifica_utente.php?mode=delete_user&username=" . $username . "' ><i class='fa-solid fa-trash-can'></i></a>"; ?></button></td>
-                </tr>
+      <a class='insert-users' href='inserisci_utenti.php'>Registra nuovo utente</a>
 
-            <?php }
-            ?>
-        </tbody>
-
-      </table>
-
-      <a class='progress' href='inserisci_utenti.php'>Inserisci utenti</a>
-
+      <div class="table-container">
+        <table>
+          <tr>
+              <th>Nome utente</th>
+              <th>Nome</th>
+              <th>Cognome</th>
+              <th>Ruolo</th>
+              <th></th>
+              <th></th>
+          </tr>
+          <tbody>
+          <?php
+          $users = ModelUsers::get_all_users();
+          foreach ($users as $user) {
+              $username = $user["username"];
+              $password = $user["password"];
+              $name = $user["name"];
+              $surname = $user["surname"];
+              $role = $user["role"];
+          ?>
+            <tr>
+                <td><?php echo $username; ?></td>
+                <td><?php echo $name; ?></td>
+                <td><?php echo $surname; ?></td>
+                <td><?php echo $role; ?></td>
+                <td><?php echo "<a class='progress' href='progressi.php?user=" . $username . "'>Progressi <i class='fa-solid fa-up-right-from-square'></i></a>"; ?></td>
+                <td><button type="button"><?php echo  "<a href='modifica_utente.php?mode=delete_user&username=" . $username . "' ><i class='fa-solid fa-trash-can'></i></a>"; ?></button></td>
+            </tr>
+          <?php }
+          ?>
+          </tbody>
+        </table>
+      </div>
     </div>
   <?php
   }
 
   session_start();
-  if (isset($_SESSION["admin"])){
-    main($_SESSION["admin"]);
-  } else {
-      header("Location: index.php");
-  }
+  main($_SESSION["admin"]);
   ?>
 
 </body>
