@@ -51,15 +51,14 @@
         require_once("backend/model/ModelUsers.php");
 
         $user = ModelUsers::get_user($username);
-        print_r($user);
 
         if ($user && password_verify($password, $user["password"])) {
             if ($user["role"] == "Admin") {
                 $_SESSION["admin"] =  $username;
-                header("Location: allenamento.php");
+                header("Location: admin.php");
             } else {
                 $_SESSION["user"] =  $username;
-                header("Location: admin.php");
+                header("Location: allenamento.php");
             }
             exit;
         } else {
