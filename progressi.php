@@ -34,6 +34,18 @@ if (isset($_GET['user'])){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
       crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script>
+      <?php
+      echo "const username = '" . $_SESSION["user"] . "';";
+      ?>
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="js/ajax.js"></script>
+    <script src="js/progressi.js" defer></script>
 </head>
 
 <body>
@@ -56,29 +68,11 @@ if (isset($_GET['user'])){
       </div>
       <a href="logout.php"><span>Esci</span></a>
     </nav>
-    <div class="content">
-        <h1>Progressi</h1>
-        <table>
-          <tr>
-            <th>Tempo impiegato</th>
-            <th>Livello</th>
-            <th>Testo</th>
-            <th>Data</th>
-            <th>Passato</th>
-          </tr>
-          <?php
-          $attempts = ModelAttempts::get_attempts($user);
-          foreach($attempts as $attempt) {
-            echo "<tr>";
-            echo "<td>".$attempt["time_elapsed"]."</td>";
-            echo "<td>".$attempt["level"]."</td>";
-            echo "<td>".$attempt["idText"]."</td>";
-            echo "<td>".$attempt["dateAttempt"]."</td>";
-            echo "<td>".($attempt["passed"] ? "<i class='fas fa-check'></i>" : "<i class='fas fa-xmark'></i>")."</td>";
-            echo "</tr>";
-          }
-          ?>
-        </table>
+
+    <h2 id="levelTitle"></h2>
+
+    <div class="container">
+      <canvas id="progressChart"></canvas>
     </div>
 </body>
 
