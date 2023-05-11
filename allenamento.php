@@ -51,13 +51,16 @@ if (isset($_SESSION["admin"])) {
       <div class="relative">
         <div class="result" id="result">
           <span id="time"></span>
-          <button onclick="nextSentence()" id="nextSentenceButton">Cominciamo!</button>
+          <button onclick="nextSentence()" id="nextSentenceButton">Cominciamo <i class="fa-solid fa-play"></i></button>
         </div>
         <span class="text-indicator"></span>
         <div id="text"></div>
       </div>
 
-      <button class="record-button" id="recordButton"><i class="fa-solid fa-microphone"></i></button>
+      <div class="buttons">
+        <button class="restart" id="restartButton" onclick="resetSentence()"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+        <button class="record-button" id="recordButton"><i class="fa-solid fa-microphone"></i></button>
+      </div>
     </div>
 
 </body>

@@ -55,10 +55,10 @@ recordButton.addEventListener("click", () => {
 /*********************************************************
  * Texts and highlighting
  */
-let level = 1;
-let texts = [];
-let passedArray = [];
-let ready = false;
+var level = 1;
+var texts = [];
+var passedArray = [];
+var ready = false;
 
 async function get_texts() {
   texts = await get_texts_by_level(level);
@@ -90,7 +90,9 @@ let timeExpected;
 let textId;
 let attempTime;
 const generatedWords = [];
+var pronunced = false;
 function randomSentence() {
+  pronunced = false;
   let chosen = texts[Math.floor(Math.random() * texts.length)];
   textId = chosen.idText;
   const randomText = chosen.text;
@@ -103,7 +105,6 @@ function randomSentence() {
     span.classList.add("word");
     text.appendChild(span);
   }
-  text.style.translate = 0;
   attempTime = new Date();
 }
 
@@ -111,20 +112,25 @@ function randomSentence() {
  * Word validation
  */
 let wordTimer = new Date();
-function checkWords(string) {
+function checkWords(word) {
   // console.log(string, "==", generatedWords[0].toLowerCase(), "?", string == generatedWords[0].toLowerCase());
   if (generatedWords == 0) return false;
-  if (string != generatedWords[0].toLowerCase()) return false;
+  if (word != generatedWords[0].replace(/[.,?!]/g, "").toLowerCase()) return false;
 
   // Shift and highlight
   generatedWords.shift();
+  const last = text.querySelector(".word.last");
+  if (last) last.classList.remove("last");
   const span = text.querySelector(".word:not(.pronunced)");
   span.classList.add("pronunced");
+  span.classList.add("last");
 
   // End of sentence
   if (generatedWords.length == 0) {
+    pronunced = true;
     let now = new Date();
     let timeElapsed = now - wordTimer - TEXT_RECOGNITION_TIME;
+    if (timeElapsed < 0) timeElapsed = 0;
     let passed = timeElapsed < timeExpected;
     let passedInt = passed ? 1 : 0;
     passedArray.push(passedInt);
@@ -161,7 +167,7 @@ recognition.addEventListener("result", (event) => {
   }
 
   // Extraction
-  const result = event.results[lastParagraph - 1][0].transcript;
+  const result = event.results[event.resultIndex][0].transcript;
   const pronunced = result
     .toLowerCase()
     .replace(/[.,?!]/g, "")
@@ -191,7 +197,7 @@ function setLevel(p_level) {
 
 const attemptsToPass = 3;
 const successfulAttemptsToPass = 2;
-function advanceLevel() {
+async function advanceLevel() {
   if (passedArray.length < attemptsToPass) return;
 
   // Check if it was reached the minimun number of passed attempts
@@ -203,8 +209,9 @@ function advanceLevel() {
   if (passedCount > successfulAttemptsToPass && level < 5) {
     console.log("Salita di livello");
     setLevel(level + 1);
-    get_texts();
+    await get_texts();
   }
+  return true;
 }
 // TODO also use advanceLevel at the beginning
 
@@ -212,11 +219,36 @@ function nextSentence() {
   if (!ready) return;
   if (!recording) recordButton.click();
 
-  advanceLevel();
+  advanceLevel().then(() => {
+    // Next sentence
+    nextSentenceButton.innerHTML = "Prossimo";
+    text.innerHTML = "";
+    randomSentence();
+    wordTimer = new Date();
+    result.style.display = "none";
+  });
+}
 
-  nextSentenceButton.innerHTML = "Prossimo";
+function resetSentence() {
+  if (pronunced) return;
+
+  pronunced = false;
+  while (generatedWords.length > 0) {
+    generatedWords.pop();
+  }
   text.innerHTML = "";
-  randomSentence();
+  
+  let chosen = texts.filter(text => text.idText == textId)[0];
+  const randomText = chosen.text;
+  const words = randomText.split(" ");
+  timeExpected = words.length * WORD_PRONUNCE_TIME;
+  for (let word of words) {
+    generatedWords.push(word);
+    const span = document.createElement("span");
+    span.innerHTML = word;
+    span.classList.add("word");
+    text.appendChild(span);
+  }
+  attempTime = new Date();
   wordTimer = new Date();
-  result.style.display = "none";
 }

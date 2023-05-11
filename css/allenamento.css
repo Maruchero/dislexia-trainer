@@ -46,7 +46,7 @@ h1 {
   color: gray;
 }
 
-/* .word.pronunced::after {
+.word.pronunced.last:after {
   content: "";
   display: block;
   width: 2px;
@@ -55,15 +55,21 @@ h1 {
 
   position: absolute;
   top: 50%;
-  left: 100%;
+  left: calc(100% - 3px);
   translate: 3px -50%;
-} */
+}
 
 /* Record button */
-.record-button {
-  align-self: center;
-  justify-self: center;
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  width: 100%;
+  position: relative;
+}
+
+.record-button {
   display: block;
   width: 150px;
   aspect-ratio: 1;
@@ -77,6 +83,20 @@ h1 {
 .record-button.active {
   background: var(--white);
   color: var(--orange);
+}
+
+.restart {
+  position: absolute;
+  translate: -100px 50px;
+
+  display: block;
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 3px solid var(--orange);
+  background: var(--white);
+  color: var(--orange);
+  font-size: 25px;
 }
 
 /* Result */
