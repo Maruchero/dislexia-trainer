@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (isset($_SESSION["user"])){
+    header("Location: allenamento.php");
+} else if (isset($_SESSION["admin"])){
+    header("Location: admin.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,13 +46,6 @@
             </form>
         </div>
         <?php
-    }
-
-    session_start();
-    if (isset($_SESSION["user"])){
-        header("Location: allenamento.php");
-    } else if (isset($_SESSION["admin"])){
-        header("Location: admin.php");
     }
 
     $errors = [];
