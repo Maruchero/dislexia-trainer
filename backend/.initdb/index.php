@@ -98,8 +98,7 @@ $sql = "INSERT IGNORE INTO `texts` (`text`, `level`) VALUES
         ('Bolla', '1'),
         ('Doccia', '1'),
 		
-		('Lavastoviglie', '2'),
-        ('Apribottiglie', '2'),
+		    ('Lavastoviglie', '2'),
         ('Cassaforte', '2'),
         ('Pianoforte', '2'),
         ('Benpensante', '2'),
@@ -108,7 +107,6 @@ $sql = "INSERT IGNORE INTO `texts` (`text`, `level`) VALUES
         ('Manomettere', '2'),
         ('Sottostimare', '2'),
         ('Psichiatra', '2'),
-        ('Rmarro', '2'),
         ('Psicanalista', '2'),
         ('Parapiglia', '2'),
         ('Galantuomo', '2'),
@@ -262,7 +260,6 @@ $sql = "INSERT IGNORE INTO `texts` (`text`, `level`) VALUES
         ('I fiori sbocciano nel giardino, colorando il paesaggio con petali delicati e profumi avvolgenti, regalando gioia e bellezza alla natura circostante', '9'),
         ('Nel futuro, la tecnologia avanza in modo esponenziale, trasformando le nostre vite e aprendo porte verso nuove scoperte e possibilità sorprendenti', '9'),
         ('Il lunedì inizia la settimana con energie rinnovate, mentre il venerdì si respira la grande attesa del fine settimana imminente', '9'),
-        ('Con cura e precisione, pulisco ogni angolo della casa, rimuovendo polvere e sporco, riportando freschezza e ordine nell'ambiente che amo', '9'),
         ('I personaggi animati saltano fuori dallo schermo, portando sorrisi e allegria a grandi e piccini, creando un mondo magico fatto di colori e avventure senza confini', '9'),
         ('Gli elefanti, maestosi e pacifici, camminano con passo lento tra la savana, mentre il loro potente barrito risuona nella dolce aria, simbolo di forza e saggezza', '9'),
 
@@ -276,7 +273,6 @@ $sql = "INSERT IGNORE INTO `texts` (`text`, `level`) VALUES
         ('Porta aperta per chi porta, chi non porta parta pure per la porta aperta, poco importa', '10'),
         ('Tre tigri contro tre tigri', '10'),
         ('Il Papa pesa e pesta il pepe a Pisa, Pisa pesa e pesta il pepe al Papa', '10'),
-        ('Sul tagliere gli agli taglia non tagliare la tovaglia la tovaglia non è aglio se la tagli fai uno sbaglio', '10'),
         ('Stanno stretti sotto i letti sette spettri a denti stretti', '10'),
         ('Chi ama chiama chi ama, chiamami tu che chi ami chiami', '10'),
         ('A che serve che la serva si conservi la conserva, se la serva quando serve non si serve di conserva?', '10'),

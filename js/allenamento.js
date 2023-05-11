@@ -206,7 +206,7 @@ async function advanceLevel() {
     if (passedArray[passedArray.length - i - 1] == 1) passedCount++;
   }
 
-  if (passedCount > successfulAttemptsToPass && level < 5) {
+  if (passedCount > successfulAttemptsToPass && level < 10) {
     console.log("Salita di livello");
     setLevel(level + 1);
     await get_texts();

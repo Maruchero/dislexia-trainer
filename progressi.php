@@ -24,7 +24,7 @@ if (isset($_GET['user'])){
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Progressi</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/progressi.css">
 
@@ -37,7 +37,11 @@ if (isset($_GET['user'])){
 
     <script>
       <?php
-      echo "const username = '" . $_SESSION["user"] . "';";
+      if (isset($_GET["user"])) {
+        echo "const username = '" . $_GET["user"] . "';";
+      } else {
+        echo "const username = '" . $_SESSION["user"] . "';";
+      }
       ?>
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
