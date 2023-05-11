@@ -185,7 +185,7 @@ $sql = "INSERT IGNORE INTO `texts` (`text`, `level`) VALUES
         ('Stavo giocando in giardino ma poi ha iniziato a piovere', '6'),
         ('Mentre la mamma preparava i biscotti, io studiavo', '6'),
         ('Se Marco mi da le caramelle, gli do un bacino', '6'),
-        ('Il babbo diceche viene prima il dovere e dopo il piacere', '6'),
+        ('Il babbo dice che viene prima il dovere e dopo il piacere', '6'),
         ('Apri la finestra che fa molto caldo in classe', '6'),
         ('Spegni la luce quando esci dal bagno', '6'),
         ('Devo prendere per la prima volta un aereo in vita mia', '6'),
