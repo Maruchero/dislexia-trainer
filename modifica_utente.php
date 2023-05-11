@@ -30,7 +30,6 @@ if (!isset($_SESSION["admin"])) header("Location: allenamento.php");
     <nav>
       <div class="left">
         <?php
-        session_start();
 
         if (isset($_SESSION["user"])){
           ?>
