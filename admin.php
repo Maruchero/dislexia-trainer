@@ -1,10 +1,7 @@
 <?php
 require_once("backend/model/ModelUsers.php");
-
-if (isset($_SESSION["user"])) {
-  header("Location: allenamento.php");
-  exit;
-}
+session_start();
+if (!isset($_SESSION["admin"])) header("Location: allenamento.php");
 ?>
 
 <!DOCTYPE html>
@@ -82,8 +79,6 @@ if (isset($_SESSION["user"])) {
   <?php
   }
 
-  session_start();
-  if (!isset($_SESSION["admin"])) header("Location: allenamento.php");
   main($_SESSION["admin"]);
   ?>
 

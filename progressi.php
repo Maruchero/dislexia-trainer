@@ -16,7 +16,6 @@ if (isset($_GET['user'])){
 } else {
   header("Location: index.php");
 }
-
 ?>
 
 <!DOCTYPE html>
