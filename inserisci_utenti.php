@@ -55,10 +55,10 @@ if (!isset($_SESSION["admin"])) header("Location: allenamento.php");
         <label for="confirm_password">Conferma password *</label>
         <input type="password" name="confirm_password" value="<?php echo $confirm_password ?>" required data-equals="password" title="Le password non corrispondono">
 
-        <label for="name">Name *</label>
+        <label for="name">Nome *</label>
         <input type="text" name="name" value="<?php echo $name ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo nome, senza numeri o caratteri speciali">
 
-        <label for="surname">Surname *</label>
+        <label for="surname">Cognome *</label>
         <input type="text" name="surname" value="<?php echo $surname ?>" pattern="^[a-zA-Z]{2,64}$" required title="Inserisci il tuo cognome, senza numeri o caratteri speciali">
               
         <input type="submit" name="button" class="form-btn" value="Inserisci">
