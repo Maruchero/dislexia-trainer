@@ -195,8 +195,8 @@ function setLevel(p_level) {
   passedArray = [];
 }
 
-const attemptsToPass = 3;
-const successfulAttemptsToPass = 2;
+const attemptsToPass = 7;
+const successfulAttemptsToPass = 5;
 async function advanceLevel() {
   if (passedArray.length < attemptsToPass) return;
 
