@@ -44,7 +44,7 @@ with the following structure:
             connect.php
             
         css
-	    admin.css
+            admin.css
             allenamento.css
             global.css
             index.css
@@ -53,9 +53,9 @@ with the following structure:
             progressi.css
         
         js
-	    ajax.js
+            ajax.js
             allenamento.js
-	    progressi.js
+            progressi.js
        
        project management
         Garonzi_Imran_Villardi_DislexiaTrainer_OBI.ods
