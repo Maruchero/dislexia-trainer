@@ -7,6 +7,7 @@ body {
 
 .content {
   flex: 1 1 auto;
+  position: relative;
 
   display: grid;
   grid-template-rows: auto max-content auto;
@@ -124,4 +125,37 @@ h1 {
   border-radius: 10px;
   padding: 10px 20px;
   background: var(--orange);
+}
+
+/* Info */
+.info {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.info .caption {
+  position: absolute;
+  right: 20px;
+  top: 0;
+  
+  font-size: 0.9em;
+  width: 500px;
+  border-radius: 10px;
+  padding: 5px 10px;
+  border: 3px solid #d29052;
+  background: rgb(240, 230, 213);
+  pointer-events: none;
+
+  opacity: 0;
+}
+
+.info i {
+  cursor: pointer;
+}
+
+.info:has(i:hover) .caption {
+  /* content: "Benvenuto su Dislexia Trainer! Per il corretto funzionamento dell'applicazione ricordati di scandire bene le parole e di trovarti in un'ambiente silenzioso. Il nostro obiettivo è quello di aiutarti a migliorare nella lettura di frasi e parole che diventano sempre più complicate ogni livello che passi. Per salire di livello devi fare almeno 7 tentativi per ogni livello e di questi 7, almeno 5 tentativi devono essere corretti. E adesso divertiti a leggere con Dislexia Trainer"; */
+  opacity: 1;
+
 }

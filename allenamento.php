@@ -44,6 +44,16 @@ if (!isset($_SESSION["user"])) header("Location: index.php");
 
     <div class="content">
       <h1 class="title">Livello <span id="titleLevel">1</span></h1>
+      <div class="info">
+        <i class="fa-solid fa-info-circle"></i>
+        <div class="caption">Benvenuto su Dislexia Trainer!
+Per il corretto funzionamento dell'applicazione ricordati di scandire bene le parole e di trovarti in un'ambiente silenzioso.
+
+Il nostro obiettivo è quello di aiutarti a migliorare nella lettura di frasi e parole che diventano sempre più complicate ogni livello che passi.
+Per salire di livello devi fare almeno 7 tentativi per ogni livello e di questi 7, almeno 5 tentativi devono essere corretti.
+
+E adesso divertiti a leggere con Dislexia Trainer</div>
+      </div>
 
       <div class="relative">
         <div class="result" id="result">
