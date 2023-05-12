@@ -16,8 +16,14 @@ with the following structure:
 
 	dislexia-trainer-main
 	
+	    README.md
+	    admin.php
 	    allenamento.php
 	    index.php
+	    inserisci_utenti.php
+	    logout.php
+	    modifica_utente.php
+	    profilo.php
 	    progressi.php
 	
         backend
@@ -36,15 +42,20 @@ with the following structure:
                 ViewTexts.php
                 ViewUsers.php
             connect.php
-            prova.html
             
         css
+	    admin.css
             allenamento.css
             global.css
             index.css
+	    modifica_utente.css
+	    profilo.css
+	    progressi.css
         
         js
+	    ajax.js
             allenamento.js
+	    progressi.js
        
        project management
         Garonzi_Imran_Villardi_DislexiaTrainer_OBI.ods
