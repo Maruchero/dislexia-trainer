@@ -48,9 +48,9 @@ with the following structure:
             allenamento.css
             global.css
             index.css
-	    modifica_utente.css
-	    profilo.css
-	    progressi.css
+            modifica_utente.css
+            profilo.css
+            progressi.css
         
         js
 	    ajax.js
