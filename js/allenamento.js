@@ -4,7 +4,7 @@
 // text
 
 const TEXT_RECOGNITION_TIME = 1800;
-const WORD_PRONUNCE_TIME = 600;
+const WORD_PRONUNCE_TIME = 900;
 
 // Initial checks
 if (
@@ -50,6 +50,13 @@ recordButton.addEventListener("click", () => {
     recording = true;
     recordButton.classList.add("active");
   }
+});
+
+restartButton.addEventListener("mousedown", () => {
+  restartButton.classList.add("active");
+});
+restartButton.addEventListener("mouseup", () => {
+  restartButton.classList.remove("active");
 });
 
 /*********************************************************
@@ -195,8 +202,8 @@ function setLevel(p_level) {
   passedArray = [];
 }
 
-const attemptsToPass = 7;
-const successfulAttemptsToPass = 5;
+const attemptsToPass = 1;
+const successfulAttemptsToPass = 1;
 async function advanceLevel() {
   if (passedArray.length < attemptsToPass) return;
 
