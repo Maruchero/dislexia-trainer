@@ -58,9 +58,9 @@ with the following structure:
             progressi.js
        
        project management
-        Garonzi_Imran_Villardi_DislexiaTrainer_OBI.ods
-        Garonzi_Imran_Villardi_DislexiaTrainer_RACI.ods
-        Garonzi_Imran_Villardi_DislexiaTrainer_WBS.ods
+            Garonzi_Imran_Villardi_DislexiaTrainer_OBI.ods
+            Garonzi_Imran_Villardi_DislexiaTrainer_RACI.ods
+            Garonzi_Imran_Villardi_DislexiaTrainer_WBS.ods
 
 ## Running
 
