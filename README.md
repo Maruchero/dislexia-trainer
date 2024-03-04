@@ -5,6 +5,8 @@
 ![Language](https://img.shields.io/badge/Language-html-green?style=flat)
 ![Language](https://img.shields.io/badge/Language-css-green?style=flat)
 
+<img src="https://github.com/Maruchero/dislexia-trainer/assets/101459540/4bc56187-5491-44c0-9625-e520d002bc9e" width="60%"><br>
+
 # **Submit**
 Useful program for helping children and people with dyslexia. The application can be used as a fun and nice game for children to improve or learn to read without difficulty. This application is divided into 10 levels. In each level, words or phrases will come up, which will become more and more complex as the level increases.
 
