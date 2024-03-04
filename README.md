@@ -1,5 +1,4 @@
 ﻿# ___DISLEXIA TRAINER___
-
 ![Language](https://img.shields.io/badge/Language-php-green?style=flat)
 ![Language](https://img.shields.io/badge/Language-javascript-green?style=flat)
 ![Language](https://img.shields.io/badge/Language-html-green?style=flat)
